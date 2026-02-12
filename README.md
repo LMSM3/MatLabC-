@@ -64,7 +64,6 @@ include/        Public headers
 tests/          Unit & stress tests
 examples/       Example programs (C++, CLI, Python, MATLAB reference)
 packages/       Package-manager manifests
-EXPORT/         Archived old docs, scripts, and .m demo files
 ```
 
 ## Licence
