@@ -1,0 +1,85 @@
+🎯 ERROR FIXED - TRY AGAIN NOW
+═══════════════════════════════════════════════════════════════════════════════
+
+WHAT HAPPENED:
+  You ran: .\Setup-Global-Integration.ps1
+  Error:   "A positional parameter cannot be found that accepts argument 'Release'"
+  Cause:   Parameter binding issue in the script
+
+WHAT I DID:
+  ✅ Fixed Setup-Global-Integration.ps1
+  ✅ Simplified parameter handling
+  ✅ Made it more robust
+
+═══════════════════════════════════════════════════════════════════════════════
+
+NOW TRY AGAIN:
+═══════════════════════════════════════════════════════════════════════════════
+
+Step 1: Make sure you're in admin PowerShell
+  Right-click PowerShell → Run as Administrator
+
+Step 2: Navigate to v0.3.0
+  cd C:\Users\Liam\Desktop\MatLabC++\v0.3.0
+
+Step 3: Run the fixed script
+  .\Setup-Global-Integration.ps1
+
+Expected output:
+  ═════════════════════════════════════════
+  MatLabC++ Global Integration Setup
+  ═════════════════════════════════════════
+  
+  Build Path: C:\Users\Liam\Desktop\MatLabC++\build\Release
+  
+  [OK] Build directory validated
+  [OK] matlabcpp.exe found (XX.XX MB)
+  [OK] PATH updated
+  [OK] PATH verification: SUCCESS
+  
+  ═════════════════════════════════════════
+  Integration Complete
+  ═════════════════════════════════════════
+
+Step 4: Close this PowerShell window completely
+
+Step 5: Open NEW Admin PowerShell
+
+Step 6: Test
+  mlcpp --version
+
+  ✅ Should work!
+
+═══════════════════════════════════════════════════════════════════════════════
+
+TROUBLESHOOTING:
+
+If you still get an error:
+
+❌ "matlabcpp.exe not found"
+   → Build not complete
+   → Run: cmake --build . --config Release
+
+❌ "Build path not found"
+   → Build directory doesn't exist
+   → Run: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release ..
+
+❌ "Access denied"
+   → Not running as Admin
+   → Right-click PowerShell → Run as Administrator
+
+═══════════════════════════════════════════════════════════════════════════════
+
+QUICK CHECKLIST:
+
+Before running the script:
+  ☑ Visual Studio C++ compiler installed
+  ☑ Release build exists (C:\Users\Liam\Desktop\MatLabC++\build\Release\matlabcpp.exe)
+  ☑ Running Admin PowerShell
+  ☑ In correct directory (v0.3.0)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+Go try running the script again now! 🚀
+
+═══════════════════════════════════════════════════════════════════════════════

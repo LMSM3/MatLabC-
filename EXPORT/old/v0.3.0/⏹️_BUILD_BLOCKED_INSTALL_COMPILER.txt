@@ -1,0 +1,122 @@
+═══════════════════════════════════════════════════════════════════════════════
+  🚨 CRITICAL ISSUE: Build System Failing
+═══════════════════════════════════════════════════════════════════════════════
+
+CURRENT SITUATION
+  ❌ No C++ compiler installed (MSVC needed)
+  ❌ CMake syntax error (FIXED in CMakeLists.txt)
+  ❌ Build shows false "[SUCCESS]" messages but actually fails
+  ❌ mlcpp command not available because build failed
+  ⏸️ Global integration blocked until build works
+
+═══════════════════════════════════════════════════════════════════════════════
+
+IMMEDIATE ACTION REQUIRED
+
+STEP 1: Install Visual Studio Community (FREE)
+  
+  ► Go to: https://visualstudio.microsoft.com/downloads/
+  ► Click: "Visual Studio Community 2022" → Download
+  ► Run installer
+  ► Select: ✓ "Desktop development with C++"
+  ► Click: Install
+  ► Wait: ~30 minutes
+  ► Restart: Computer when done
+
+STEP 2: Verify Installation
+
+  Open PowerShell and run:
+    where cl
+    
+  Should show: C:\Program Files\Microsoft Visual Studio\...
+  
+  If not found, add to PATH and restart PowerShell
+
+STEP 3: Clean Build Directory
+
+  PowerShell:
+    cd C:\Users\Liam\Desktop\MatLabC++
+    rm -r build
+    mkdir build
+    cd build
+
+STEP 4: Configure & Build
+
+  PowerShell:
+    cmake -DCMAKE_BUILD_TYPE=Release ..
+    cmake --build . --config Release
+    
+  Should see:
+    [100%] Linking CXX executable matlabcpp.exe
+    [100%] Built target matlabcpp
+
+STEP 5: Verify
+
+  PowerShell:
+    ls Release\matlabcpp.exe
+    
+  Should show file (~10-20 MB)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+THEN PROCEED WITH GLOBAL INTEGRATION
+
+Once build works:
+
+  1. Add to Windows PATH
+     .\Setup-Global-Integration.ps1
+  
+  2. Add bash alias
+     bash Setup-Bash-Integration.sh
+  
+  3. Test everywhere
+     mlcpp --version  (should work!)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+WHY THIS IS BLOCKING
+
+Without compiler:
+  ✗ Can't build matlabcpp.exe
+  ✗ No executable to make global
+  ✗ mlcpp command won't exist
+  ✗ Can't test the language
+
+With compiler (after fix):
+  ✓ Build succeeds
+  ✓ matlabcpp.exe created
+  ✓ Can add to PATH
+  ✓ mlcpp works everywhere
+
+═══════════════════════════════════════════════════════════════════════════════
+
+READ DETAILED GUIDE
+
+📖 00_CRITICAL_BUILD_FIX.md (in v0.3.0/)
+   
+   • Full installation instructions
+   • Troubleshooting for common errors
+   • Verification steps
+   • Timeline estimates
+
+═══════════════════════════════════════════════════════════════════════════════
+
+SUMMARY
+
+What we fixed:     ✅ CMakeLists.txt syntax error
+What we need:      ⏹️ Visual Studio with C++ compiler
+Estimated time:    ⏰ 30 minutes install + 10 minutes build
+
+Action:
+  1. Install Visual Studio Community 2022
+  2. Select "Desktop development with C++"
+  3. Follow build steps above
+  4. Then proceed to global integration
+
+═══════════════════════════════════════════════════════════════════════════════
+
+STATUS: WAITING FOR COMPILER INSTALLATION
+
+Once installed, send me "build ready" and we'll get everything working!
+
+═══════════════════════════════════════════════════════════════════════════════

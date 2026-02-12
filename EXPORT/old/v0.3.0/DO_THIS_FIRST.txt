@@ -1,0 +1,35 @@
+═══════════════════════════════════════════════════════════════════════════════
+  YOU'RE IN THE WRONG ENVIRONMENT - QUICK FIX
+═══════════════════════════════════════════════════════════════════════════════
+
+CURRENT:  WSL/Bash (doesn't work with PowerShell scripts)
+NEED:     Windows Native Admin PowerShell
+
+═══════════════════════════════════════════════════════════════════════════════
+
+IMMEDIATE ACTION
+
+1. Type: exit
+2. Press Windows key
+3. Type: powershell
+4. Right-click "Windows PowerShell"
+5. Click "Run as Administrator"
+
+═══════════════════════════════════════════════════════════════════════════════
+
+THEN RUN
+
+cd C:\Users\Liam\Desktop\MatLabC++\v0.3.0
+.\Setup-Icons-Orchestrator.ps1
+
+═══════════════════════════════════════════════════════════════════════════════
+
+READ FOR DETAILS
+
+📖 CORRECT_ENVIRONMENT_SETUP.txt (complete step-by-step guide)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+Status: Scripts are fine ✅ - Just need correct PowerShell window
+
+═══════════════════════════════════════════════════════════════════════════════

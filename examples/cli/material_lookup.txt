@@ -1,0 +1,562 @@
+# Material Database Lookup Examples
+# Comprehensive guide to querying materials
+
+# ========================================
+# Basic Material Information
+# ========================================
+
+$ ./matlabcpp
+
+>>> material abs
+ABS
+  Density:     1060 kg/m³
+  Conductivity: 0.19 W/(m·K)
+  Melts at:    205°C
+  Typical uses: Consumer products, housings, 3D printing
+
+>>> material nylon6
+Nylon 6
+  Density:     1140 kg/m³
+  Young's:     2.9 GPa
+  Yield:       80 MPa
+  Melts at:    220°C
+
+>>> material peek
+PEEK (High-performance plastic)
+  Density:     1320 kg/m³
+  Young's:     3.6 GPa
+  Yield:       90 MPa
+  Melts at:    343°C
+  Typical uses: Aerospace, medical, high-temp
+
+
+# ========================================
+# Quick Density Lookups
+# ========================================
+
+>>> density pla
+1240 kg/m³
+
+>>> density abs
+1060 kg/m³
+
+>>> density peek
+1320 kg/m³
+
+
+# ========================================
+# Material Comparison
+# ========================================
+
+>>> compare pla petg abs
+
+Comparing 3 materials:
+
+PLA:
+  Density:  1240 kg/m³
+  Strength: 50 MPa
+  Temp max: 180°C
+  
+PETG:
+  Density:  1270 kg/m³
+  Strength: 50 MPa
+  Temp max: 250°C
+  
+ABS:
+  Density:  1060 kg/m³
+  Strength: 45 MPa
+  Temp max: 205°C
+
+Winner (strength-to-weight): PLA
+Winner (temperature): PETG
+Winner (lightweight): ABS
+
+
+# ========================================
+# 3D Printing Materials
+# ========================================
+
+>>> material pla
+PLA (Polylactic acid)
+  Density:     1240 kg/m³
+  Melts at:    180°C
+  Glass transition: 60°C
+  Notes:
+    - Biodegradable
+    - Easy to print
+    - Low temperature resistance
+    - Brittle at low temperatures
+
+>>> material petg
+PETG
+  Density:     1270 kg/m³
+  Melts at:    250°C
+  Notes:
+    - Tougher than PLA
+    - Better layer adhesion
+    - Chemical resistant
+    - Food safe (if food-grade)
+
+>>> material abs
+ABS (Acrylonitrile Butadiene Styrene)
+  Density:     1060 kg/m³
+  Young's:     2.3 GPa
+  Yield:       45 MPa
+  Melts at:    205°C
+  Notes:
+    - Common in consumer products
+    - Good impact resistance
+    - Requires heated bed for printing
+    - Emits styrene fumes when heated
+
+
+# ========================================
+# High-Performance Plastics
+# ========================================
+
+>>> material peek
+PEEK (Polyetheretherketone)
+  Density:     1320 kg/m³
+  Young's:     3.6 GPa
+  Yield:       90 MPa
+  Melts at:    343°C
+  Glass transition: 143°C
+  Typical uses: 
+    - Aerospace components
+    - Medical implants
+    - High-temperature bearings
+  Cost: $$$$ (expensive)
+
+>>> material ptfe
+PTFE (Teflon)
+  Density:     2200 kg/m³
+  Young's:     0.5 GPa
+  Melts at:    327°C
+  Notes:
+    - Extremely low friction
+    - Chemical resistant
+    - Non-stick surface
+    - Used in seals, bearings, coatings
+
+
+# ========================================
+# Engineering Plastics
+# ========================================
+
+>>> material nylon6
+Nylon 6
+  Density:     1140 kg/m³
+  Young's:     2.9 GPa
+  Yield:       80 MPa
+  Melts at:    220°C
+  Notes:
+    - Good wear resistance
+    - Absorbs moisture (affects properties)
+    - Used in gears, bearings
+    - Strong and tough
+
+>>> material polycarbonate
+Polycarbonate (PC)
+  Density:     1200 kg/m³
+  Young's:     2.4 GPa
+  Yield:       60 MPa
+  Melts at:    267°C
+  Glass transition: 150°C
+  Notes:
+    - Transparent
+    - High impact resistance
+    - Used in safety glasses, phone cases
+    - UV sensitive (yellows over time)
+
+
+# ========================================
+# Metal Identification
+# ========================================
+
+>>> identify 2700
+Best match: Aluminum (pure)
+Confidence: 98%
+Properties:
+  Density: 2700 kg/m³
+  Young's: 70 GPa
+  Yield: 40 MPa (soft)
+
+>>> identify 7850
+Best match: Steel (mild/carbon)
+Confidence: 97%
+Properties:
+  Density: 7850 kg/m³
+  Young's: 200 GPa
+  Yield: 250 MPa
+
+>>> identify 8900
+Best match: Copper
+Confidence: 99%
+Properties:
+  Density: 8960 kg/m³
+  Thermal conductivity: 385 W/(m·K)
+
+>>> identify 1740
+Best match: Magnesium
+Confidence: 92%
+Properties:
+  Density: 1740 kg/m³
+  Excellent strength-to-weight
+  Flammable when powdered
+
+
+# ========================================
+# Temperature Considerations
+# ========================================
+
+>>> material pla --temp 70
+PLA at 70°C:
+  Status: NEAR GLASS TRANSITION (60°C)
+  Warning: Material will soften
+  Recommendation: Use PETG or ABS for high-temp
+
+>>> material peek --temp 200
+PEEK at 200°C:
+  Status: SAFE (melts at 343°C)
+  Properties maintained
+  Glass transition: 143°C (exceeded but still solid)
+
+>>> material aluminum_6061 --temp 200
+Aluminum 6061-T6 at 200°C:
+  Status: CAUTION
+  Strength reduced by ~30%
+  Thermal expansion: significant
+  Recommendation: Account for thermal growth
+
+
+# ========================================
+# Material Selection Queries
+# ========================================
+
+>>> find material min_strength=50e6 max_density=1500
+Matching materials:
+  1. PEEK      (Strength: 90 MPa, Density: 1320 kg/m³)
+  2. Nylon 6   (Strength: 80 MPa, Density: 1140 kg/m³)
+  3. PLA       (Strength: 50 MPa, Density: 1240 kg/m³)
+
+>>> find material category=plastic min_temp=250
+High-temperature plastics (>250°C):
+  1. PEEK      (343°C)
+  2. PTFE      (327°C)
+  3. Polycarbonate (267°C)
+
+>>> find material category=metal max_cost=5
+Affordable metals (<$5/kg):
+  1. Steel     ($0.50/kg)
+  2. Aluminum  ($2.50/kg)
+  3. Cast Iron ($0.80/kg)
+
+
+# ========================================
+# Export and Documentation
+# ========================================
+
+>>> material pla --json
+{
+  "name": "PLA",
+  "category": "plastic",
+  "density": {"value": 1240, "units": "kg/m³"},
+  "melts_at": {"value": 180, "units": "°C"},
+  "source": "NatureWorks datasheet",
+  "confidence": 5
+}
+
+>>> material pla --export pla_data.txt
+Exported PLA properties to pla_data.txt
+
+>>> compare pla petg abs --export comparison.csv
+Comparison saved to comparison.csv
+
+
+# ========================================
+# Inference from Multiple Properties
+# ========================================
+
+>>> infer density=1240 melts_at=180
+Best match: PLA
+Confidence: 99%
+Reasoning: Exact density and melting point match
+
+>>> infer density=2700 thermal_conductivity=167
+Best match: Aluminum 6061
+Confidence: 96%
+Reasoning: Density and conductivity both match
+Alternative: Pure Aluminum (98% density match)
+
+>>> infer category=plastic strength=90e6
+Best match: PEEK
+Confidence: 94%
+Reasoning: Only plastic with 90 MPa yield strength
+Alternatives: Reinforced nylon (85 MPa)
+
+
+# ========================================
+# Notes
+# ========================================
+
+# All materials in database are sourced from:
+# - NIST (metals, thermal properties)
+# - ASTM standards (test methods)
+# - Manufacturer datasheets (plastics)
+# - ASM Handbook (metals)
+
+# Confidence ratings:
+# 5 = Verified standard (NIST, ASTM)
+# 4 = Manufacturer datasheet
+# 3 = Engineering handbook
+# 2 = Estimated/calculated
+
+# To add your own materials:
+# See MATERIALS_DATABASE.md for instructions
+
+
+ABS
+  Density:     1060 kg/m³
+  Melts at:    205°C
+  Notes:
+    - Impact resistant
+    - Can be acetone-smoothed
+    - Requires heated bed
+    - Warps easily
+
+
+# ========================================
+# Engineering Plastics
+# ========================================
+
+>>> material peek
+PEEK (Polyetheretherketone)
+  Density:     1320 kg/m³
+  Young's:     3.6 GPa
+  Yield:       90 MPa
+  Melts at:    343°C
+  Cost:        ~$80/kg
+  Applications:
+    - Aerospace components
+    - Medical implants
+    - High-temperature bearings
+    - Chemical processing
+  Warning: Expensive, requires special printers
+
+>>> material pc
+Polycarbonate
+  Density:     1200 kg/m³
+  Yield:       62 MPa
+  Melts at:    267°C
+  Applications:
+    - Safety glasses
+    - Bulletproof windows
+    - Phone cases
+    - Transparent parts
+
+
+# ========================================
+# Material Identification by Properties
+# ========================================
+
+# Found a plastic part, measured density
+>>> identify 1240
+Best match: PLA
+Confidence: 95%
+Properties:
+  Density: 1240 kg/m³
+  Melts at: 180°C
+  Young's: 3.5 GPa
+
+# Unknown material, density ~1300
+>>> identify 1320
+Best match: PEEK
+Confidence: 98%
+Alternatives:
+  - Nylon 6 (1140 kg/m³)
+  - PETG (1270 kg/m³)
+
+# Metal sample
+>>> identify 2700
+Best match: Aluminum
+Confidence: 99%
+Common alloys:
+  - 6061-T6 (structural)
+  - 7075-T6 (aerospace)
+  - 2024-T3 (aircraft)
+
+
+# ========================================
+# Material Selection Queries
+# ========================================
+
+# Find lightweight strong plastic
+>>> select category=plastic min_strength=50e6 max_density=1300
+
+Results (3 found):
+1. PLA
+   Density: 1240 kg/m³
+   Yield: 50 MPa
+   Strength-to-weight: 40.3
+
+2. PETG
+   Density: 1270 kg/m³
+   Yield: 50 MPa
+   Strength-to-weight: 39.4
+
+3. ABS
+   Density: 1060 kg/m³
+   Yield: 45 MPa
+   Strength-to-weight: 42.5
+
+Recommendation: ABS (best strength-to-weight)
+
+
+# ========================================
+# Temperature Considerations
+# ========================================
+
+>>> material pla
+...
+Max temperature: 60°C (glass transition)
+Warning: Will deform above 60°C
+
+>>> material petg
+...
+Max temperature: 80°C (glass transition)
+Better heat resistance than PLA
+
+>>> material peek
+...
+Max temperature: 250°C (continuous use)
+Excellent high-temperature performance
+
+
+# ========================================
+# Cost Considerations
+# ========================================
+
+>>> material pla
+Cost: ~$20/kg (commodity)
+Availability: Very common
+
+>>> material petg
+Cost: ~$25/kg (common)
+Availability: Common
+
+>>> material peek
+Cost: ~$80-150/kg (specialty)
+Availability: Specialty suppliers only
+
+
+# ========================================
+# Material Property Ranges
+# ========================================
+
+# List all materials by density
+>>> list materials density
+
+Sorted by density:
+  ABS:   1060 kg/m³
+  Nylon: 1140 kg/m³
+  PC:    1200 kg/m³
+  PLA:   1240 kg/m³
+  PETG:  1270 kg/m³
+  PEEK:  1320 kg/m³
+  PTFE:  2200 kg/m³
+
+# List by strength
+>>> list materials strength
+
+Sorted by yield strength:
+  PEEK:  90 MPa
+  Nylon: 80 MPa
+  PC:    62 MPa
+  PLA:   50 MPa
+  PETG:  50 MPa
+  ABS:   45 MPa
+
+
+# ========================================
+# Real-World Decision Making
+# ========================================
+
+# Scenario: Outdoor electronics enclosure
+>>> material abs
+Density: 1060 kg/m³
+UV resistance: Poor (will yellow/degrade)
+Recommendation: Use PETG or PC instead
+
+>>> material petg
+Density: 1270 kg/m³
+UV resistance: Better than ABS
+Weather resistance: Good
+Recommendation: Good choice for outdoor use
+
+# Scenario: Food container
+>>> material pla
+Food safe: Only if specifically certified
+Note: Check manufacturer specifications
+
+>>> material petg
+Food safe: Yes (if food-grade variant)
+Note: Commonly used in food containers
+
+# Scenario: High-temperature application (120°C)
+>>> material pla
+Max temp: 60°C
+Result: ? Will fail
+
+>>> material peek
+Max temp: 250°C
+Result: ? Suitable
+
+
+# ========================================
+# Advanced Queries
+# ========================================
+
+# Find materials similar to PLA
+>>> find_similar pla
+
+Similar materials:
+1. PETG (Density: 1270 kg/m³, Similarity: 85%)
+   - Better temperature resistance
+   - Similar strength
+   - Slightly heavier
+
+2. Nylon 6 (Density: 1140 kg/m³, Similarity: 75%)
+   - Much stronger
+   - Better impact resistance
+   - More expensive
+
+3. PC (Density: 1200 kg/m³, Similarity: 70%)
+   - Transparent option
+   - Better temperature
+   - More expensive
+
+
+# ========================================
+# Material Warnings
+# ========================================
+
+>>> material pla
+Warnings:
+  - Brittle at low temperatures (<0°C)
+  - Will deform above 60°C
+  - UV degrades over time
+  - Absorbs moisture (store dry)
+
+>>> material abs
+Warnings:
+  - Requires heated bed for printing
+  - Warps easily during cooling
+  - Emits styrene fumes (ventilation needed)
+  - UV sensitive (yellows outdoors)
+
+>>> material peek
+Warnings:
+  - Expensive ($80-150/kg)
+  - Requires high-temp printer (400°C+)
+  - Limited color options
+  - Difficult to print without experience

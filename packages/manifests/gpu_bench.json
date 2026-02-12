@@ -1,0 +1,117 @@
+{
+  "name": "gpu_bench",
+  "version": "1.0.0",
+  "arch": "x86_64",
+  "description": "GPU benchmarking suite for CUDA and OpenCL",
+  "category": "tools",
+  "license": "MIT",
+  
+  "requires": [
+    "core >= 0.3.0"
+  ],
+  
+  "optional_requires": [
+    "cuda >= 11.0",
+    "opencl >= 2.0"
+  ],
+  
+  "provides": [
+    "gpu_benchmark",
+    "gpu_matrix_mult",
+    "gpu_fft",
+    "gpu_elementwise",
+    "gpu_device_info",
+    "gpu_memory_test"
+  ],
+  
+  "backends": {
+    "available": ["cuda", "opencl", "cpu_fallback"],
+    "default": "cuda",
+    "priority": {
+      "cuda": 100,
+      "opencl": 80,
+      "cpu_fallback": 10
+    },
+    "detection": {
+      "cuda": "nvcc --version && nvidia-smi",
+      "opencl": "clinfo"
+    }
+  },
+  
+  "files": {
+    "include": [
+      "include/matlabcpp/gpu_bench.hpp"
+    ],
+    "lib": [
+      "lib/libgpu_bench.so",
+      "lib/libgpu_bench.a"
+    ],
+    "kernels": [
+      "kernels/matrix_mult.cu",
+      "kernels/fft_kernel.cu",
+      "kernels/elementwise.cl"
+    ],
+    "demos": [
+      "demos/gpu_benchmark.m"
+    ],
+    "docs": [
+      "docs/README.md",
+      "docs/BENCHMARKS.md"
+    ]
+  },
+  
+  "capabilities": {
+    "gpu_benchmark": {
+      "type": "function",
+      "signature": "BenchmarkResult gpu_benchmark(string test_type)",
+      "backends": ["cuda", "opencl"]
+    },
+    "gpu_matrix_mult": {
+      "type": "function",
+      "signature": "Matrix gpu_matrix_mult(Matrix A, Matrix B)",
+      "backends": ["cuda", "opencl", "cpu_fallback"]
+    },
+    "gpu_device_info": {
+      "type": "function",
+      "signature": "DeviceInfo gpu_device_info()",
+      "backends": ["cuda", "opencl"]
+    }
+  },
+  
+  "metadata": {
+    "benchmarks": ["matrix_mult", "fft", "elementwise", "memory"],
+    "min_gpu_memory": "8GB",
+    "supported_gpus": ["NVIDIA", "AMD", "Intel"],
+    "performance_baseline": {
+      "matrix_1000x1000": "10ms",
+      "fft_1M": "5ms"
+    }
+  },
+  
+  "size": 48000,
+  "checksum": "sha256:a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+  
+  "author": "MatLabC++ Contributors",
+  "maintainer": "gpu@matlabcpp.org",
+  "url": "https://github.com/matlabcpp/matlabcpp",
+  "repository": "https://packages.matlabcpp.org/",
+  
+  "keywords": ["gpu", "cuda", "opencl", "benchmark", "performance"],
+  
+  "install": {
+    "pre_install": [
+      "echo 'Detecting GPU capabilities...'",
+      "./detect_gpu.sh"
+    ],
+    "post_install": [
+      "echo 'GPU benchmarking tools installed'",
+      "echo 'Test with: mlab++ gpu_benchmark.m --enableGPU'"
+    ]
+  },
+  
+  "notes": [
+    "Requires NVIDIA drivers for CUDA support",
+    "Requires ROCm for AMD GPU support",
+    "Falls back to CPU if no GPU detected"
+  ]
+}

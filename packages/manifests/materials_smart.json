@@ -1,0 +1,99 @@
+{
+  "name": "materials_smart",
+  "version": "1.0.0",
+  "arch": "any",
+  "description": "Smart materials database with inference, selection, and optimization",
+  "category": "data",
+  "license": "MIT",
+  
+  "requires": [
+    "core >= 0.3.0"
+  ],
+  
+  "provides": [
+    "material",
+    "material_get",
+    "material_infer_density",
+    "material_infer_properties",
+    "material_select",
+    "material_compare",
+    "material_recommend",
+    "material_prop_at_temp",
+    "material_db_stats"
+  ],
+  
+  "backends": {
+    "available": ["cpu"],
+    "default": "cpu",
+    "priority": {
+      "cpu": 100
+    }
+  },
+  
+  "files": {
+    "include": [
+      "include/matlabcpp/materials_smart.hpp"
+    ],
+    "lib": [
+      "lib/libmaterials_smart.so",
+      "lib/libmaterials_smart.a"
+    ],
+    "demos": [
+      "demos/materials_lookup.m",
+      "demos/materials_optimization.m"
+    ],
+    "docs": [
+      "docs/README.md",
+      "docs/API.md"
+    ]
+  },
+  
+  "capabilities": {
+    "material": {
+      "type": "function",
+      "signature": "Material material(string name)",
+      "backend": "cpu"
+    },
+    "material_get": {
+      "type": "function",
+      "signature": "Material material_get(string name)",
+      "backend": "cpu"
+    },
+    "material_infer_density": {
+      "type": "function",
+      "signature": "InferenceResult material_infer_density(double rho, double tolerance)",
+      "backend": "cpu"
+    },
+    "material_select": {
+      "type": "function",
+      "signature": "vector<InferenceResult> material_select(SelectionCriteria criteria, string optimize_for)",
+      "backend": "cpu"
+    }
+  },
+  
+  "metadata": {
+    "materials_count": 4,
+    "materials_list": ["aluminum_6061", "steel", "peek", "pla"],
+    "source_quality": "Tier 1 (NIST, ASM, ASTM)",
+    "temperature_dependent": true,
+    "inference_engine": true
+  },
+  
+  "size": 156000,
+  "checksum": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  
+  "author": "MatLabC++ Contributors",
+  "maintainer": "materials@matlabcpp.org",
+  "url": "https://github.com/matlabcpp/matlabcpp",
+  "repository": "https://packages.matlabcpp.org/",
+  
+  "keywords": ["materials", "database", "inference", "engineering", "selection"],
+  
+  "install": {
+    "pre_install": [],
+    "post_install": [
+      "echo 'Materials database installed with 4 built-in materials'",
+      "echo 'Extend with custom materials in ~/.matlabcpp/materials.json'"
+    ]
+  }
+}

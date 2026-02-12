@@ -1,0 +1,175 @@
+{
+  "name": "plotting",
+  "version": "1.0.0",
+  "arch": "any",
+  "description": "Native plotting system with business and engineering themes",
+  "category": "graphics",
+  "license": "MIT",
+  
+  "requires": [
+    "core >= 0.3.0"
+  ],
+  
+  "optional_requires": [
+    "cairo >= 1.16",
+    "vtk >= 9.0",
+    "opengl >= 4.5"
+  ],
+  
+  "provides": [
+    "figure",
+    "axes",
+    "subplot",
+    "tiledlayout",
+    "nexttile",
+    "plot",
+    "scatter",
+    "bar",
+    "histogram",
+    "plot3",
+    "scatter3",
+    "surf",
+    "mesh",
+    "contour",
+    "title",
+    "xlabel",
+    "ylabel",
+    "zlabel",
+    "legend",
+    "grid",
+    "colormap",
+    "colorbar",
+    "view",
+    "exportgraphics",
+    "saveas",
+    "print"
+  ],
+  
+  "backends": {
+    "available": ["cairo_raster", "cairo_vector", "opengl", "vtk", "svg"],
+    "default": "cairo_raster",
+    "priority": {
+      "cairo_raster": 100,
+      "cairo_vector": 90,
+      "opengl": 80,
+      "vtk": 70,
+      "svg": 60
+    },
+    "detection": {
+      "cairo_raster": "pkg-config --exists cairo",
+      "cairo_vector": "pkg-config --exists cairo",
+      "opengl": "command -v glxinfo",
+      "vtk": "pkg-config --exists vtk"
+    },
+    "fallback": "builtin_renderer"
+  },
+  
+  "files": {
+    "include": [
+      "include/matlabcpp/plotting/renderer.hpp",
+      "include/matlabcpp/plotting/plot_spec.hpp",
+      "include/matlabcpp/plotting/renderer_2d.hpp",
+      "include/matlabcpp/plotting/renderer_3d.hpp",
+      "include/matlabcpp/plotting/style_presets.hpp"
+    ],
+    "lib": [
+      "lib/libmatlabcpp_plotting.so",
+      "lib/libmatlabcpp_plotting.a"
+    ],
+    "data": [
+      "data/styles/business.json",
+      "data/styles/engineering.json",
+      "data/colormaps/jet.json",
+      "data/colormaps/parula.json",
+      "data/colormaps/viridis.json"
+    ],
+    "demos": [
+      "demos/plotting_2d_demo.m",
+      "demos/plotting_3d_demo.m",
+      "demos/dashboard_demo.m",
+      "demos/engineering_report.m"
+    ],
+    "docs": [
+      "docs/README.md",
+      "docs/PLOTTING_GUIDE.md",
+      "docs/STYLE_PRESETS.md",
+      "docs/BACKENDS.md"
+    ]
+  ],
+  
+  "capabilities": {
+    "plot": {
+      "type": "function",
+      "signature": "void plot(Vector x, Vector y, Properties props)",
+      "backends": ["cairo_raster", "cairo_vector", "svg"]
+    },
+    "surf": {
+      "type": "function",
+      "signature": "void surf(Matrix X, Matrix Y, Matrix Z)",
+      "backends": ["opengl", "vtk", "cairo_raster"]
+    },
+    "exportgraphics": {
+      "type": "function",
+      "signature": "void exportgraphics(Figure fig, string filename, Properties props)",
+      "backends": ["all"]
+    }
+  },
+  
+  "style_presets": {
+    "business": {
+      "description": "Clean corporate look for presentations",
+      "use_cases": ["dashboards", "reports", "presentations"],
+      "default_dpi": 150
+    },
+    "engineering": {
+      "description": "Technical plots for engineering reports",
+      "use_cases": ["scientific", "technical", "publications"],
+      "default_dpi": 300
+    }
+  },
+  
+  "metadata": {
+    "plot_types": {
+      "2d": ["line", "scatter", "bar", "histogram", "area", "errorbar"],
+      "3d": ["surface", "mesh", "scatter3", "plot3", "contour3"]
+    },
+    "export_formats": ["png", "svg", "pdf", "eps", "jpg"],
+    "colormaps": ["jet", "parula", "viridis", "hot", "cool", "gray"],
+    "max_resolution": "10000x10000",
+    "performance": {
+      "2d_series_limit": 1000000,
+      "3d_points_limit": 100000
+    }
+  },
+  
+  "size": 280000,
+  "checksum": "sha256:9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+  
+  "author": "MatLabC++ Contributors",
+  "maintainer": "graphics@matlabcpp.org",
+  "url": "https://github.com/matlabcpp/matlabcpp",
+  "repository": "https://packages.matlabcpp.org/",
+  
+  "keywords": ["plotting", "graphics", "charts", "visualization", "2d", "3d"],
+  
+  "install": {
+    "pre_install": [
+      "echo 'Detecting graphics libraries...'",
+      "./detect_graphics.sh"
+    ],
+    "post_install": [
+      "echo 'Plotting system installed'",
+      "echo 'Backends available:'",
+      "./list_backends.sh",
+      "echo 'Test with: mlab++ plotting_2d_demo.m --visual'"
+    ]
+  },
+  
+  "notes": [
+    "Cairo recommended for high-quality 2D output",
+    "OpenGL/VTK optional for 3D acceleration",
+    "Falls back to built-in renderer if no external libs",
+    "Business theme optimized for presentations (150 DPI)",
+    "Engineering theme optimized for publications (300 DPI)"
+  ]
+}

@@ -1,0 +1,56 @@
+✅ CMAKE NOT FOUND - QUICK FIX
+═══════════════════════════════════════════════════════════════════════════════
+
+THE ERROR:
+  cmake: command not found
+
+ROOT CAUSE:
+  Build tools not installed in WSL
+
+THE FIX (Copy & Paste):
+═══════════════════════════════════════════════════════════════════════════════
+
+sudo apt update
+sudo apt install -y build-essential cmake libcairo2-dev
+
+(This installs everything needed)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+THEN REBUILD:
+
+cd /mnt/c/Users/Liam/Desktop/MatLabC++
+rm -rf build
+mkdir build && cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+cmake --build . --config Release -j4
+
+═══════════════════════════════════════════════════════════════════════════════
+
+OR USE THE SCRIPT:
+
+bash v0.3.0/rebuild.sh
+
+(Does everything automatically, including installing dependencies)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+EXPECTED OUTPUT:
+
+[100%] Built target matlabcpp
+✅ SUCCESS!
+
+═══════════════════════════════════════════════════════════════════════════════
+
+THEN SETUP:
+
+cd ../v0.3.0
+bash Setup-Bash-Integration.sh
+source ~/.bashrc
+mlcpp --version
+
+═══════════════════════════════════════════════════════════════════════════════
+
+STATUS: READY TO BUILD ✅
+
+═══════════════════════════════════════════════════════════════════════════════

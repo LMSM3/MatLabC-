@@ -1,0 +1,5 @@
+#!/bin/bash
+# matlabhypothetical.txt (production wrapper)
+# ${YELLOW} TEST CODE ${NC} - 4 lines
+
+echo -e "\033[1;33m[PROD] Building numerical diagnostics...\033[0m" && gcc -std=c99 -O2 -lm -Wall -o matlab_accuracy_prod matlabhypothetical.c && echo -e "\033[1;33m[PROD] Running round-off diagnostics (animated)...\033[0m" && ./matlab_accuracy_prod --animate

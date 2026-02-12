@@ -1,0 +1,123 @@
+{
+  "name": "fem_solver",
+  "version": "1.0.0",
+  "arch": "any",
+  "description": "Finite element analysis for beams, trusses, and 2D problems",
+  "category": "fem",
+  "license": "MIT",
+  
+  "requires": [
+    "core >= 0.3.0",
+    "optimization >= 1.0.0"
+  ],
+  
+  "optional_requires": [
+    "materials_smart >= 1.0.0"
+  ],
+  
+  "provides": [
+    "fem_beam",
+    "fem_truss",
+    "fem_2d",
+    "fem_heat",
+    "fem_modal",
+    "mesh_generate",
+    "mesh_refine",
+    "stress_analysis",
+    "strain_analysis"
+  ],
+  
+  "backends": {
+    "available": ["sparse", "dense", "gpu"],
+    "default": "sparse",
+    "priority": {
+      "gpu": 100,
+      "sparse": 80,
+      "dense": 50
+    }
+  },
+  
+  "files": {
+    "include": [
+      "include/matlabcpp/fem.hpp",
+      "include/matlabcpp/fem/beam.hpp",
+      "include/matlabcpp/fem/truss.hpp",
+      "include/matlabcpp/fem/heat.hpp",
+      "include/matlabcpp/fem/mesh.hpp"
+    ],
+    "lib": [
+      "lib/libfem_solver.so",
+      "lib/libfem_solver.a"
+    ],
+    "demos": [
+      "demos/fem_beam_demo.m",
+      "demos/fem_heat_demo.m",
+      "demos/fem_modal_demo.m"
+    ],
+    "data": [
+      "meshes/bracket.msh",
+      "meshes/heat_sink.msh"
+    ],
+    "docs": [
+      "docs/README.md",
+      "docs/THEORY.md",
+      "docs/EXAMPLES.md"
+    ]
+  },
+  
+  "capabilities": {
+    "fem_beam": {
+      "type": "function",
+      "signature": "FEMResult fem_beam(double length, double load, Material material, BoundaryConditions bc)",
+      "backends": ["sparse", "dense"]
+    },
+    "fem_heat": {
+      "type": "function",
+      "signature": "FEMResult fem_heat(Mesh geometry, Material material, HeatBoundaryConditions bc)",
+      "backends": ["sparse"]
+    },
+    "mesh_generate": {
+      "type": "function",
+      "signature": "Mesh mesh_generate(Geometry geom, double element_size)",
+      "backends": ["cpu"]
+    }
+  },
+  
+  "metadata": {
+    "element_types": ["beam", "truss", "tri3", "quad4", "tet4", "hex8"],
+    "analysis_types": ["static", "modal", "thermal", "transient"],
+    "solvers": ["direct", "iterative", "multigrid"],
+    "max_dofs": 100000,
+    "materials_integration": true
+  },
+  
+  "size": 420000,
+  "checksum": "sha256:3f78f2b5d9d9e1e9b0e2c3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4",
+  
+  "author": "MatLabC++ Contributors",
+  "maintainer": "fem@matlabcpp.org",
+  "url": "https://github.com/matlabcpp/matlabcpp",
+  "repository": "https://packages.matlabcpp.org/",
+  
+  "keywords": ["fem", "finite element", "structural", "thermal", "analysis"],
+  
+  "install": {
+    "pre_install": [
+      "echo 'Checking for sparse matrix library...'",
+      "./detect_sparse.sh"
+    ],
+    "post_install": [
+      "echo 'FEM solver installed'",
+      "echo 'Includes beam, truss, and 2D elements'",
+      "echo 'Integrates with materials_smart if installed'",
+      "echo 'Test with: mlab++ fem_beam_demo.m --visual'"
+    ]
+  },
+  
+  "notes": [
+    "Requires sparse matrix library (SuiteSparse recommended)",
+    "Integrates with materials_smart for automatic material properties",
+    "GPU acceleration for large problems (100k+ DOFs)",
+    "Mesh generation uses Triangle or TetGen if available"
+  ]
+}

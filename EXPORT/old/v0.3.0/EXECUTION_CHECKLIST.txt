@@ -1,0 +1,219 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                                                                               ║
+║                    EXECUTION CHECKLIST - v0.3.1 Setup                         ║
+║                                                                               ║
+║                        Date: 2025-01-24                                       ║
+║                        Status: ✅ READY                                        ║
+║                                                                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+
+PRE-EXECUTION CHECKLIST
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Before you run, verify:
+
+  [ ] Admin PowerShell open (right-click "Run as Administrator")
+  [ ] PowerShell version 5.0 or higher (run: $PSVersionTable.PSVersion)
+  [ ] In correct directory: C:\Users\Liam\Desktop\MatLabC++\v0.3.0
+  [ ] Can see: Setup-Icons-Orchestrator.ps1 (run: ls Setup-Icons-Orchestrator.ps1)
+
+
+EXECUTION OPTIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Choose ONE of these:
+
+  [ ] Option 1: Interactive Launcher (RECOMMENDED)
+      Command: .\START.ps1
+      Time: 2-5 minutes
+      What: Validates environment, then launches orchestrator
+      Good for: First time users
+
+  [ ] Option 2: Direct Orchestration
+      Command: .\Setup-Icons-Orchestrator.ps1
+      Time: 2-5 minutes (first run) | <1 minute (cached)
+      What: Runs smart automation directly
+      Good for: Experienced users
+
+  [ ] Option 3: Status Check (No Changes)
+      Command: .\Setup-Icons-Orchestrator.ps1 -Profile verify
+      Time: <1 minute
+      What: Shows current state without executing
+      Good for: Verification before execution
+
+  [ ] Option 4: Preview (What-If Mode)
+      Command: .\Setup-Icons-Orchestrator.ps1 -Profile preview
+      Time: <1 minute
+      What: Shows what would happen without making changes
+      Good for: Testing before committing
+
+  [ ] Option 5: Force Re-run (Debugging)
+      Command: .\Setup-Icons-Orchestrator.ps1 -Profile force
+      Time: 2-5 minutes
+      What: Ignores cache and re-executes everything
+      Good for: Debugging or manual re-run
+
+
+STEP-BY-STEP EXECUTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Step 1: Open Admin PowerShell
+  [ ] Opened
+  
+Step 2: Navigate to Project Directory
+  cd C:\Users\Liam\Desktop\MatLabC++\v0.3.0
+  [ ] Navigated
+  [ ] Verified: pwd shows correct path
+  
+Step 3: Execute One Option from Above
+  [ ] Selected option: ________________
+  [ ] Command entered: ________________
+  [ ] Execution started: ________________
+  
+Step 4: Monitor Output
+  [ ] Pre-flight checks completed
+  [ ] Current status shown
+  [ ] Setup execution started (if needed)
+  [ ] Validation completed
+  [ ] Next steps displayed
+  
+Step 5: Verify Success
+  [ ] Icon file exists: ls assets\icon.ico
+  [ ] Cache created: ls .setup-icons-cache.json
+  [ ] Both visible in directory listing
+
+
+POST-EXECUTION CHECKLIST
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+After execution completes:
+
+  [ ] Icon asset created at: assets\icon.ico
+      Verify: ls assets\icon.ico
+      
+  [ ] Cache file created: .setup-icons-cache.json
+      View: cat .setup-icons-cache.json | ConvertFrom-Json | Format-List
+      
+  [ ] Output shows "Next Steps for v0.3.1"
+      This tells you what to do next
+      
+  [ ] No errors in output
+      Look for [FAIL] or errors in red
+
+
+NEXT STEPS (After Icon Setup Succeeds)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Follow these to complete v0.3.1:
+
+  [ ] 1. Update CMakeLists.txt version to 0.3.1
+       Edit: notepad CMakeLists.txt
+       Find: project(MatLabCpp VERSION 0.3.0 ...
+       Change to: project(MatLabCpp VERSION 0.3.1 ...
+       
+  [ ] 2. Build Release executable
+       mkdir build
+       cd build
+       cmake -DCMAKE_BUILD_TYPE=Release ..
+       cmake --build . --config Release
+       
+  [ ] 3. Review installer configuration
+       Edit: notepad ..\installers\MatLabCpp_Setup_v0.3.1.iss
+       Verify: SetupIconFile=..\assets\icon.ico (should be correct)
+       
+  [ ] 4. Compile installer with Inno Setup
+       Open MatLabCpp_Setup_v0.3.1.iss in Inno Setup
+       Build → Compile
+       Result: Output\MatLabCpp_Setup_v0.3.1.exe
+       
+  [ ] 5. Test installer on clean Windows VM
+       Run: Output\MatLabCpp_Setup_v0.3.1.exe
+       Verify: Icon displays, installation works, PATH set
+
+
+TROUBLESHOOTING CHECKLIST
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+If something goes wrong:
+
+  Problem: "Access Denied" or "Cannot be loaded"
+  [ ] Fix: Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope CurrentUser
+  [ ] Re-run: .\Setup-Icons-Orchestrator.ps1
+
+  Problem: "Setup-Icons-Orchestrator.ps1 not found"
+  [ ] Check: You're in v0.3.0 directory
+  [ ] Verify: ls Setup-Icons-Orchestrator.ps1 (should show file)
+  [ ] Location: C:\Users\Liam\Desktop\MatLabC++\v0.3.0
+
+  Problem: "Icon asset not found"
+  [ ] Find: Get-ChildItem -Recurse -Filter "*.ico"
+  [ ] Run: .\Setup-Icons.ps1 -SourceIconPath "C:\path\to\icon.ico" -Force
+
+  Problem: "Already executed, need to re-run"
+  [ ] Option 1: .\Setup-Icons-Orchestrator.ps1 -Profile force
+  [ ] Option 2: .\Setup-Icons-Auto.ps1 -ResetCache -Force
+
+  Problem: "Want to verify without executing"
+  [ ] Run: .\Setup-Icons-Orchestrator.ps1 -Profile verify
+  [ ] Or: .\Setup-Icons-Orchestrator.ps1 -Profile preview
+
+
+DOCUMENTATION FILES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+For detailed help:
+
+  [ ] This session:           RUNME_20250124.md (most complete)
+  [ ] Quick reference:        RUNME_START_HERE.txt (visual)
+  [ ] Decision matrix:        EXECUTE_NOW.txt (what to run)
+  [ ] File index:             RUNME_FILES_INDEX.md (navigation)
+  [ ] Summary:                FINAL_EXECUTION_SUMMARY.txt (overview)
+  [ ] Complete guide:         SETUP_ICONS_AUTOMATION_GUIDE.md (technical)
+  [ ] Tech report:            SETUP_ICONS_IMPLEMENTATION_REPORT.md (details)
+
+
+TIME ESTIMATES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  [ ] Icon setup (this session):    2-5 minutes
+  [ ] CMakeLists.txt update:        1 minute
+  [ ] Build Release executable:     5-10 minutes
+  [ ] Review installer config:      2-3 minutes
+  [ ] Compile with Inno Setup:      2-3 minutes
+  [ ] Test on VM:                   10-15 minutes
+  ──────────────────────────────────────
+  TOTAL v0.3.1 setup:               20-35 minutes
+
+
+FINAL CHECKLIST
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Ready to start?
+
+  [ ] Admin PowerShell ready
+  [ ] In correct directory
+  [ ] Have chosen execution option
+  [ ] Understand what will happen
+  [ ] Understand next steps
+  [ ] Ready to execute
+
+SUCCESS INDICATORS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+After execution, you'll see:
+
+  ✓ "[OK]" messages (successful operations)
+  ✓ "Icon Setup Complete" message
+  ✓ Icon file: assets\icon.ico
+  ✓ Cache file: .setup-icons-cache.json
+  ✓ "Next Steps:" guidance printed to console
+  ✓ Exit code: 0 (success)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+STATUS: ✅ READY TO EXECUTE
+
+You have everything you need. Good luck! 🚀
+
+═══════════════════════════════════════════════════════════════════════════════

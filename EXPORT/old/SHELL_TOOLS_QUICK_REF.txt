@@ -1,0 +1,177 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                   MatLabC++ Shell Build Tools Quick Reference                ║
+║                                   v0.2.3                                      ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ QUICK START                                                                  │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+  # First time: Make script executable
+  chmod +x tools/build_and_check.sh
+
+  # Build and verify
+  ./tools/build_and_check.sh
+
+  # Or use Makefile
+  make build-version-check
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ MAKEFILE TARGETS                                                             │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+  make help                    Show all available targets
+  make build-version-check     Build and verify (RECOMMENDED)
+  make build                   Build project only
+  make run                     Build and launch interactive mode
+  make test                    Run test suite
+  make clean                   Remove build directory
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ SHELL SCRIPT USAGE                                                           │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+  # Default: Release build in build/
+  ./tools/build_and_check.sh
+
+  # Custom build directory
+  BUILD_DIR=mybuild ./tools/build_and_check.sh
+
+  # Debug build
+  CONFIG=Debug ./tools/build_and_check.sh
+
+  # Combined
+  BUILD_DIR=debug CONFIG=Debug TARGET=mlab++ ./tools/build_and_check.sh
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ ENVIRONMENT VARIABLES                                                        │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+  BUILD_DIR=<path>      Build directory (default: build)
+  CONFIG=<type>         Configuration type (default: Release)
+  TARGET=<name>         Target name (default: mlab++)
+
+  Examples:
+    BUILD_DIR=out make build-version-check
+    CONFIG=Debug ./tools/build_and_check.sh
+    TARGET=mlab++ BUILD_DIR=mybuild CONFIG=Debug make build
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ KEY FEATURES                                                                 │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+  ✓ Robust error handling (set -euo pipefail)
+  ✓ Never hides build failures
+  ✓ Multi-config generator support (VS, Ninja Multi-Config)
+  ✓ Cross-platform parallelism detection
+  ✓ Proper exit codes for CI/CD
+  ✓ Automatic executable path resolution
+  ✓ Built-in version verification
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ COMPARISON: WHICH SCRIPT TO USE?                                            │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+  build_and_setup.sh                   tools/build_and_check.sh + Makefile
+  ├─ First-time setup                  ├─ Daily development
+  ├─ Interactive with colors           ├─ CI/CD integration
+  ├─ Dependency checking               ├─ Robust error handling
+  ├─ Full environment setup            ├─ Environment overrides
+  └─ Visual progress bars              └─ Makefile integration
+
+  TIP: Use BOTH! build_and_setup.sh for initial setup,
+       then tools/build_and_check.sh / make for daily work.
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ COMMON WORKFLOWS                                                             │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+  # Quick rebuild after code changes
+  make build-version-check
+
+  # Build and test new code
+  make build && make test
+
+  # Clean rebuild
+  make clean && make build-version-check
+
+  # Build and run
+  make run
+
+  # Debug build
+  CONFIG=Debug make build-version-check
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ CI/CD INTEGRATION                                                            │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+  # .github/workflows/build.sh
+  #!/bin/bash
+  set -e
+
+  # Robust build - fails properly if anything breaks
+  ./tools/build_and_check.sh
+
+  # If we get here, build actually succeeded
+  echo "Build verified - deploying..."
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ ALIASES FOR YOUR SHELL                                                      │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+  # Add to ~/.bashrc or ~/.zshrc
+  alias mlab-build='make build-version-check'
+  alias mlab-run='make run'
+  alias mlab-test='make test'
+  alias mlab-clean='make clean && make build-version-check'
+  alias mlab-debug='CONFIG=Debug make build-version-check'
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ TROUBLESHOOTING                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+  ✗ "command not found: ./tools/build_and_check.sh"
+    → Run: chmod +x tools/build_and_check.sh
+
+  ✗ "BUILD_DIR not found"
+    → Make sure you're in project root (where CMakeLists.txt is)
+
+  ✗ "Executable not found after build"
+    → Check if using multi-config generator (VS/Ninja Multi-Config)
+    → Script auto-detects build/ and build/Release/ layouts
+
+  ✗ "Build succeeded but executable doesn't work"
+    → Script runs --version check automatically to catch this
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ WHAT'S NEW IN v0.2.3?                                                       │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+  OLD (v0.2.0-0.2.2):                  NEW (v0.2.3):
+  ┌─────────────────────────────┐      ┌─────────────────────────────┐
+  │ cmake --build .             │      │ set -euo pipefail          │
+  │ || echo "--- Failed ---"    │      │ cmake --build .            │
+  │ # Returns 0 even on fail!   │      │ # Exits on error!          │
+  └─────────────────────────────┘      └─────────────────────────────┘
+        ↓ Hides failures                      ↓ Fails loudly
+        ↓ CI/CD passes broken code            ↓ Proper exit codes
+        ↓ False sense of success              ↓ Clear error messages
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ DOCUMENTATION                                                                │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+  SHELL_BUILD_TOOLS.md          Complete guide to v0.2.3 features
+  V0.2.3_SUMMARY.md             Quick summary of changes
+  CHANGELOG.md                  Full version history
+  Makefile                      Run 'make help' for all targets
+
+  Quick Start:
+    cat SHELL_BUILD_TOOLS.md
+    make help
+    ./tools/build_and_check.sh
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║ Remember: The new tools NEVER LIE about build success. If a build fails,    ║
+║ you'll know immediately with clear error messages and proper exit codes.    ║
+╚══════════════════════════════════════════════════════════════════════════════╝

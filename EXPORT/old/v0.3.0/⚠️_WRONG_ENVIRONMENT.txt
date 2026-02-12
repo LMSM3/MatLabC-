@@ -1,0 +1,90 @@
+⚠️  ENVIRONMENT ISSUE - YOU'RE IN WSL/BASH, NOT WINDOWS POWERSHELL
+
+═══════════════════════════════════════════════════════════════════════════════
+
+WHAT'S WRONG
+
+You're currently in:
+  WSL (Windows Subsystem for Linux) / Bash environment
+  Location: /mnt/c/WINDOWS/system32$
+
+You need to be in:
+  Native Windows Admin PowerShell
+  Location: C:\Users\Liam\Desktop\MatLabC++\v0.3.0>
+
+═══════════════════════════════════════════════════════════════════════════════
+
+HOW TO FIX - 3 STEPS
+
+STEP 1: Exit WSL/Bash
+  Type: exit
+  Press: Enter
+
+STEP 2: Open Admin PowerShell (Windows Native)
+  • Press: Windows key
+  • Type: powershell
+  • Right-click: "Windows PowerShell"
+  • Click: "Run as Administrator"
+
+STEP 3: Navigate to Project
+  Type: cd C:\Users\Liam\Desktop\MatLabC++\v0.3.0
+  Press: Enter
+
+═══════════════════════════════════════════════════════════════════════════════
+
+THEN RUN
+
+In the Admin PowerShell window:
+
+  .\Setup-Icons-Orchestrator.ps1
+
+OR
+
+  .\START.ps1
+
+═══════════════════════════════════════════════════════════════════════════════
+
+WHY THIS MATTERS
+
+PowerShell Scripts (.ps1):
+  ✗ Don't work from WSL/bash
+  ✓ Work in native Windows PowerShell
+  ✓ Require admin rights
+  ✓ Need correct path syntax (.\script.ps1, not .script.ps1)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+CORRECT PATH SYNTAX
+
+WRONG (what you typed):
+  .Setup-Icons.ps1          ← Missing backslash
+
+RIGHT (what it should be):
+  .\Setup-Icons.ps1         ← Has backslash
+
+═══════════════════════════════════════════════════════════════════════════════
+
+VISUAL GUIDE
+
+❌ DON'T USE:
+   clear@DESKTOP-G0UNQ2K:/mnt/c/...$ bash environment
+
+✅ USE THIS:
+   PS C:\Users\Liam\Desktop\MatLabC++\v0.3.0> Windows PowerShell
+
+═══════════════════════════════════════════════════════════════════════════════
+
+QUICK FIX STEPS
+
+1. Type: exit                           (leave WSL)
+2. Press: Windows key
+3. Type: powershell
+4. Right-click result → "Run as Admin"
+5. In new window: cd C:\Users\Liam\Desktop\MatLabC++\v0.3.0
+6. Run: .\Setup-Icons-Orchestrator.ps1
+
+═══════════════════════════════════════════════════════════════════════════════
+
+Status: ✅ Scripts are fine - Just need correct environment
+
+═══════════════════════════════════════════════════════════════════════════════

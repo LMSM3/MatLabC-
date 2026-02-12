@@ -1,0 +1,44 @@
+# CPU Matrix Stress Test - Manual Commands
+# Copy-paste these commands one-by-one into MatLabC++ REPL
+
+# Test 1: 500x500 Matrix Multiply
+N = 500
+A = randn(N, N)
+B = randn(N, N)
+tic
+C = A * B
+toc
+
+# Test 2: 1000x1000 Matrix Multiply  
+N = 1000
+A = randn(N, N)
+B = randn(N, N)
+tic
+C = A * B
+toc
+
+# Test 3: Matrix Operations
+A = randn(1000, 1000)
+B = randn(1000, 1000)
+
+# Addition
+tic
+C = A + B
+toc
+
+# Element-wise multiply
+tic
+C = A .* B
+toc
+
+# Transpose
+tic
+C = A'
+toc
+
+# Test 4: Check Results
+size(C)
+mean(C(:))
+norm(C, 'fro')
+
+quit

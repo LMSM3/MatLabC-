@@ -1,0 +1,303 @@
+# Material Inference System Demo
+# Smart identification from partial information
+
+# ========================================
+# Scenario 1: Found Unknown Sample
+# ========================================
+
+$ ./matlabcpp
+
+>>> identify 2700
+Analyzing density: 2700 kg/m³...
+
+Best match: Aluminum (pure or 1xxx series)
+Confidence: 98%
+
+Full properties:
+  Density:     2700 kg/m³
+  Young's:     70 GPa
+  Yield:       40 MPa (annealed)
+  Thermal:     237 W/(m·K)
+  Melts at:    660°C
+
+Alternatives:
+  - Aluminum 6061 (2700 kg/m³, higher strength)
+  - Aluminum 2024 (2780 kg/m³, stronger but heavier)
+
+Recommendation:
+  If soft: Pure aluminum
+  If strong: Likely 6061 or 2024 alloy
+
+
+# ========================================
+# Scenario 2: Multiple Property Match
+# ========================================
+
+>>> infer density=1240 melts_at=180
+
+Analyzing:
+  Density: 1240 kg/m³
+  Melting point: 180°C
+
+Best match: PLA (Polylactic acid)
+Confidence: 99%
+
+Reasoning:
+  ✓ Exact density match (1240 vs 1240)
+  ✓ Exact melting point match (180°C vs 180°C)
+  ✓ Only common plastic with these properties
+
+Complete inferred properties:
+  Young's modulus:  3.5 GPa
+  Yield strength:   50 MPa
+  Glass transition: 60°C
+  Thermal conduct:  0.13 W/(m·K)
+
+Warning:
+  PLA softens above 60°C (glass transition)
+  Not suitable for outdoor or high-temp use
+
+
+# ========================================
+# Scenario 3: Ambiguous Material
+# ========================================
+
+>>> identify 7800
+
+Analyzing density: 7800 kg/m³...
+
+Possible matches (multiple candidates):
+
+1. Steel (mild carbon) - 98% match
+   Density: 7850 kg/m³
+   Common, cheap, weldable
+
+2. Cast iron - 92% match
+   Density: 7200 kg/m³
+   Brittle, good for compression
+
+3. Stainless 304 - 90% match
+   Density: 8000 kg/m³
+   Corrosion resistant
+
+Additional tests needed:
+  - Magnetic? (Steel/iron = yes, some stainless = no)
+  - Corroded? (Steel = yes, stainless = no)
+  - Brittle? (Cast iron = yes, steel = no)
+
+>>> infer density=7800 magnetic=yes corroded=yes
+Best match: Mild steel
+Confidence: 99%
+
+
+# ========================================
+# Scenario 4: Constraint-Based Search
+# ========================================
+
+>>> find material min_strength=400e6 max_density=5000 max_cost=10
+
+Searching materials with:
+  Yield strength ≥ 400 MPa
+  Density ≤ 5000 kg/m³
+  Cost ≤ $10/kg
+
+Found 3 candidates:
+
+1. Aluminum 7075-T6 ✓ BEST
+   Strength: 505 MPa
+   Density:  2810 kg/m³
+   Cost:     $5/kg
+   Score:    9.2/10
+   
+   Pros: Excellent strength-to-weight, common
+   Cons: Poor corrosion resistance (needs coating)
+
+2. Titanium 6Al-4V
+   Strength: 880 MPa
+   Density:  4430 kg/m³
+   Cost:     $25/kg ✗ OVER BUDGET
+   
+   Pros: Best strength, corrosion resistant
+   Cons: Expensive, hard to machine
+
+3. High-strength steel (4340)
+   Strength: 860 MPa
+   Density:  7850 kg/m³ ✗ TOO HEAVY
+   Cost:     $3/kg
+   
+   Pros: Very strong, cheap
+   Cons: Heavy, rusts without coating
+
+Recommendation: Aluminum 7075-T6
+Reason: Only material meeting all constraints
+
+
+# ========================================
+# Scenario 5: Application-Based Selection
+# ========================================
+
+>>> recommend material application=drone_arm optimize=strength_to_weight
+
+Analyzing application: drone arm
+Optimization: strength-to-weight ratio
+
+Requirements inferred:
+  - Lightweight (critical for flight time)
+  - Strong (resists crash loads)
+  - Fatigue resistant (vibration)
+  - Reasonable cost
+
+Top 3 candidates:
+
+1. Carbon fiber (woven) ★★★★★
+   Strength/weight: 2340 MPa/(g/cm³)
+   Weight:         1600 kg/m³
+   Strength:       600 MPa
+   Cost:           $$$ (expensive)
+   
+   PROS: Best performance, excellent fatigue
+   CONS: Brittle, expensive, hard to repair
+
+2. Aluminum 7075-T6 ★★★★☆
+   Strength/weight: 1800 MPa/(g/cm³)
+   Weight:         2810 kg/m³
+   Strength:       505 MPa
+   Cost:           $ (moderate)
+   
+   PROS: Good performance, repairable, common
+   CONS: Heavier than carbon, fatigue-sensitive
+
+3. Titanium 6Al-4V ★★★★☆
+   Strength/weight: 1990 MPa/(g/cm³)
+   Weight:         4430 kg/m³
+   Strength:       880 MPa
+   Cost:           $$$$ (very expensive)
+   
+   PROS: Excellent fatigue, tough, corrosion-free
+   CONS: Expensive, hard to machine
+
+Recommendation: Carbon fiber for racing, Aluminum 7075 for budget
+
+
+# ========================================
+# Scenario 6: Temperature-Dependent Inference
+# ========================================
+
+>>> find material category=plastic min_working_temp=150
+
+High-temperature plastics (working temp >150°C):
+
+1. PEEK ✓ BEST
+   Working range: -40°C to 250°C
+   Glass trans:   143°C
+   Melts at:      343°C
+   
+   Safe at 150°C: YES (well below melt point)
+   Properties:    Maintained at 150°C
+
+2. Polycarbonate
+   Working range: -40°C to 130°C
+   Glass trans:   150°C ⚠ AT LIMIT
+   
+   Safe at 150°C: BORDERLINE (at glass transition)
+   Properties:    Softening begins
+
+3. PTFE (Teflon)
+   Working range: -200°C to 260°C
+   Melts at:      327°C
+   
+   Safe at 150°C: YES
+   Properties:    Fully maintained
+
+Recommendation: PEEK or PTFE
+Avoid: PLA, ABS, PETG (all fail <150°C)
+
+
+# ========================================
+# Scenario 7: Learning System Demo
+# ========================================
+
+# The system learns from your queries
+
+>>> identify 1240
+Best match: PLA (confidence: 95%)
+
+>>> identify 1240
+Best match: PLA (confidence: 97%)
+Note: Confidence increased (you query PLA often)
+
+>>> identify 2700
+Best match: Aluminum (confidence: 98%)
+
+>>> identify 2700
+Best match: Aluminum (confidence: 98%)
+
+# After 10+ PLA queries:
+>>> identify 1250
+Best match: PLA (confidence: 92%)
+Note: Close to PLA density (1240), which you use frequently
+Alternatives: PETG (1270 kg/m³)
+
+
+# ========================================
+# Scenario 8: Handling Uncertainty
+# ========================================
+
+>>> identify 5000
+
+Analyzing density: 5000 kg/m³...
+
+⚠ Low confidence - multiple possibilities:
+
+1. Titanium (pure, Grade 2) - 45% match
+   Density: 4510 kg/m³ (10% off)
+   
+2. Zirconium - 38% match
+   Density: 6520 kg/m³ (24% off)
+
+3. Titanium alloy (Ti-6Al-4V) - 35% match
+   Density: 4430 kg/m³ (13% off)
+
+No high-confidence match found.
+
+Suggestions:
+  - Provide additional properties (strength, conductivity)
+  - Verify measured density (re-measure)
+  - Check for porous/composite material
+  
+>>> infer density=5000 category=metal strength=900e6
+
+With additional context:
+Best match: Titanium 6Al-4V (heat treated)
+Confidence: 88%
+
+Reasoning:
+  Density measurement might be off (measured 5000, actual 4430)
+  High strength (900 MPa) matches Ti-6Al-4V perfectly
+  Few metals have this strength-to-density ratio
+
+
+# ========================================
+# Tips for Better Inference
+# ========================================
+
+# 1. More properties = better confidence
+>>> infer density=X                    # 60-90% confidence
+>>> infer density=X melts_at=Y        # 85-99% confidence
+>>> infer density=X strength=Y modulus=Z  # 95-99% confidence
+
+# 2. Specify category when known
+>>> infer density=1200 category=plastic   # Faster, better
+>>> infer density=1200                    # Searches all materials
+
+# 3. Use constraints for selection
+>>> find material <constraints>          # Design selection
+>>> identify <density>                   # Identification only
+
+# 4. Check alternatives
+>>> identify X --show-alternatives       # See other possibilities
+
+# 5. Export for documentation
+>>> infer <properties> --export report.txt
+>>> identify <density> --json > result.json
+

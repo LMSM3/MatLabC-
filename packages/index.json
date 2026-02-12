@@ -1,0 +1,108 @@
+{
+  "version": "1.0",
+  "updated": "2024-01-15T10:30:00Z",
+  "repository": {
+    "name": "MatLabC++ Official Repository",
+    "url": "https://packages.matlabcpp.org/v0.3/",
+    "maintainer": "packages@matlabcpp.org"
+  },
+  
+  "packages": {
+    "materials_smart": {
+      "name": "materials_smart",
+      "description": "Smart materials database with inference",
+      "category": "data",
+      "latest": "1.0.0",
+      "versions": {
+        "1.0.0": {
+          "file": "materials_smart-1.0.0-any.tar.gz",
+          "size": 156000,
+          "checksum": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "released": "2024-01-10T12:00:00Z",
+          "manifest": "manifests/materials_smart.json"
+        }
+      }
+    },
+    
+    "gpu_bench": {
+      "name": "gpu_bench",
+      "description": "GPU benchmarking suite",
+      "category": "tools",
+      "latest": "1.0.0",
+      "versions": {
+        "1.0.0": {
+          "file": "gpu_bench-1.0.0-x86_64.tar.gz",
+          "size": 48000,
+          "checksum": "sha256:a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+          "released": "2024-01-10T12:00:00Z",
+          "manifest": "manifests/gpu_bench.json"
+        }
+      }
+    },
+    
+    "signal_proc": {
+      "name": "signal_proc",
+      "description": "Signal processing toolkit",
+      "category": "dsp",
+      "latest": "1.0.0",
+      "versions": {
+        "1.0.0": {
+          "file": "signal_proc-1.0.0-any.tar.gz",
+          "size": 224000,
+          "checksum": "sha256:2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae",
+          "released": "2024-01-10T12:00:00Z",
+          "manifest": "manifests/signal_proc.json"
+        }
+      }
+    },
+    
+    "optimization": {
+      "name": "optimization",
+      "description": "Optimization toolkit",
+      "category": "math",
+      "latest": "1.0.0",
+      "versions": {
+        "1.0.0": {
+          "file": "optimization-1.0.0-any.tar.gz",
+          "size": 180000,
+          "checksum": "sha256:50d858e0985ecc7f60418aaf0cc5ab587f42c2570a884095a9e8ccacd0f6545c",
+          "released": "2024-01-10T12:00:00Z",
+          "manifest": "manifests/optimization.json"
+        }
+      }
+    },
+    
+    "fem_solver": {
+      "name": "fem_solver",
+      "description": "Finite element analysis",
+      "category": "fem",
+      "latest": "1.0.0",
+      "versions": {
+        "1.0.0": {
+          "file": "fem_solver-1.0.0-any.tar.gz",
+          "size": 420000,
+          "checksum": "sha256:3f78f2b5d9d9e1e9b0e2c3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4",
+          "released": "2024-01-10T12:00:00Z",
+          "manifest": "manifests/fem_solver.json"
+        }
+      }
+    }
+  },
+  
+  "statistics": {
+    "total_packages": 5,
+    "total_size": 1028000,
+    "categories": ["data", "tools", "dsp", "math", "fem"],
+    "last_updated": "2024-01-15T10:30:00Z"
+  },
+  
+  "metadata": {
+    "format_version": "1.0",
+    "compatibility": "MatLabC++ >= 0.3.0",
+    "mirror_urls": [
+      "https://packages.matlabcpp.org/v0.3/",
+      "https://mirror1.matlabcpp.org/v0.3/",
+      "https://mirror2.matlabcpp.org/v0.3/"
+    ]
+  }
+}

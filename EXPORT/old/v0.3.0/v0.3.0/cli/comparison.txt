@@ -1,0 +1,309 @@
+# Material Comparison Examples
+# Side-by-side analysis for design decisions
+# 
+# [FORMAT] This file shows:
+#   - MatLabC++ CLI commands
+#   - Expected output
+#   - [MATLAB] Equivalent MATLAB code (where applicable)
+
+# ========================================
+# Comparison 1: 3D Printing Materials
+# ========================================
+
+$ ./matlabcpp
+
+>>> compare pla petg abs
+
+┌─────────────────────────────────────────────────────────────┐
+│            3D PRINTING MATERIAL COMPARISON                  │
+├─────────────────────────────────────────────────────────────┤
+│ Property         │ PLA      │ PETG     │ ABS      │ Winner │
+├──────────────────┼──────────┼──────────┼──────────┼────────┤
+│ Density (kg/m³)  │ 1240     │ 1270     │ 1060     │ ABS ✓  │
+│ Strength (MPa)   │ 50       │ 50       │ 45       │ PLA ✓  │
+│ Young's (GPa)    │ 3.5      │ 2.1      │ 2.3      │ PLA ✓  │
+│ Melts at (°C)    │ 180      │ 250      │ 205      │ PETG ✓ │
+│ Glass trans (°C) │ 60       │ 80       │ 105      │ ABS ✓  │
+│ Cost ($/kg)      │ 20       │ 25       │ 22       │ PLA ✓  │
+└──────────────────┴──────────┴──────────┴──────────┴────────┘
+
+Strength-to-weight winner: PLA (40.3 MPa·m³/kg)
+Temperature winner: PETG (250°C max)
+Budget winner: PLA ($20/kg)
+
+Use cases:
+  PLA:  Prototypes, indoor, decorative (easy to print)
+  PETG: Functional parts, outdoor, food containers (tough)
+  ABS:  Impact resistance, higher temps (car interiors)
+
+# [MATLAB EQUIVALENT]
+# -------------------
+# % MATLAB: 3D Printing Materials Comparison
+# materials = {
+#     struct('name', 'PLA',  'density', 1240, 'strength', 50, 'melts', 180, 'cost', 20),
+#     struct('name', 'PETG', 'density', 1270, 'strength', 50, 'melts', 250, 'cost', 25),
+#     struct('name', 'ABS',  'density', 1060, 'strength', 45, 'melts', 205, 'cost', 22)
+# };
+# 
+# % Display comparison
+# fprintf('%-8s %10s %10s %10s %10s\n', 'Material', 'Density', 'Strength', 'Melts', 'Cost');
+# for i = 1:length(materials)
+#     m = materials{i};
+#     fprintf('%-8s %10d %10d %10d %10d\n', m.name, m.density, m.strength, m.melts, m.cost);
+# end
+# 
+# % Find winners
+# [~, idx] = min([materials{:}.density]);
+# fprintf('\nLightest: %s\n', materials{idx}.name);
+# [~, idx] = max([materials{:}.melts]);
+# fprintf('Highest temp: %s\n', materials{idx}.name);
+# 
+# % ~25 lines of MATLAB vs 1 MatLabC++ CLI command
+
+>>> compare pla petg abs --optimize temp_resistance
+
+Ranking by temperature resistance:
+  1. PETG (250°C) ★★★★★
+  2. ABS  (205°C) ★★★☆☆
+  3. PLA  (180°C) ★★☆☆☆
+
+Recommendation: Use PETG for high-temperature applications
+
+
+# ========================================
+# Comparison 2: Structural Metals
+# ========================================
+
+>>> compare steel_mild aluminum_6061 titanium_6al4v
+
+┌─────────────────────────────────────────────────────────────────────┐
+│              STRUCTURAL METAL COMPARISON                            │
+├─────────────────────────────────────────────────────────────────────┤
+│ Property           │ Mild Steel │ Al 6061-T6 │ Ti 6Al-4V │ Winner  │
+├────────────────────┼────────────┼────────────┼───────────┼─────────┤
+│ Density (kg/m³)    │ 7850       │ 2700       │ 4430      │ Al ✓    │
+│ Yield (MPa)        │ 250        │ 276        │ 880       │ Ti ✓    │
+│ Ultimate (MPa)     │ 400        │ 310        │ 950       │ Ti ✓    │
+│ Young's (GPa)      │ 200        │ 69         │ 114       │ Steel ✓ │
+│ Thermal (W/m·K)    │ 50         │ 167        │ 7         │ Al ✓    │
+│ Cost ($/kg)        │ 0.80       │ 2.50       │ 25.00     │ Steel ✓ │
+│ Strength/weight    │ 31.8       │ 102.2      │ 198.6     │ Ti ✓    │
+└────────────────────┴────────────┴────────────┴───────────┴─────────┘
+
+Overall winner: Depends on application
+  - Budget: Steel (10x cheaper than aluminum)
+  - Weight: Titanium (best strength-to-weight)
+  - Thermal: Aluminum (best heat dissipation)
+  - Stiffness: Steel (highest Young's modulus)
+
+>>> compare steel_mild aluminum_6061 titanium_6al4v --optimize strength_to_weight
+
+Ranking by specific strength (strength/density):
+  1. Titanium 6Al-4V: 198.6 MPa·m³/kg ★★★★★
+  2. Aluminum 6061:   102.2 MPa·m³/kg ★★★☆☆
+  3. Mild Steel:       31.8 MPa·m³/kg ★☆☆☆☆
+
+For aerospace/racing: Use Titanium
+For general lightweight: Use Aluminum
+For budget/strength: Use Steel
+
+# [MATLAB EQUIVALENT]
+# -------------------
+# % MATLAB: Structural Metals Comparison
+# steel = struct('name', 'Mild Steel', 'density', 7850, 'yield', 250, ...
+#               'youngs', 200, 'thermal', 50, 'cost', 0.80);
+# aluminum = struct('name', 'Al 6061-T6', 'density', 2700, 'yield', 276, ...
+#                  'youngs', 69, 'thermal', 167, 'cost', 2.50);
+# titanium = struct('name', 'Ti 6Al-4V', 'density', 4430, 'yield', 880, ...
+#                  'youngs', 114, 'thermal', 7, 'cost', 25.00);
+# 
+# materials = {steel, aluminum, titanium};
+# 
+# % Calculate specific strength
+# for i = 1:length(materials)
+#     m = materials{i};
+#     m.spec_strength = m.yield / m.density;
+#     materials{i} = m;
+# end
+# 
+# % Sort by specific strength
+# spec_strengths = cellfun(@(x) x.spec_strength, materials);
+# [sorted, idx] = sort(spec_strengths, 'descend');
+# 
+# fprintf('Ranking by specific strength:\n');
+# for i = 1:length(idx)
+#     m = materials{idx(i)};
+#     fprintf('%d. %s: %.1f MPa·m³/kg\n', i, m.name, m.spec_strength*1000);
+# end
+# 
+# % ~35 lines of MATLAB vs 1 MatLabC++ CLI command
+
+
+# ========================================
+# Comparison 3: High-Performance Plastics
+# ========================================
+
+>>> compare peek ptfe polycarbonate nylon6
+
+┌───────────────────────────────────────────────────────────────────────────┐
+│           HIGH-PERFORMANCE PLASTIC COMPARISON                             │
+├───────────────────────────────────────────────────────────────────────────┤
+│ Property        │ PEEK  │ PTFE  │ PC    │ Nylon 6 │ Winner    │
+├─────────────────┼───────┼───────┼───────┼─────────┼───────────┤
+│ Density         │ 1320  │ 2200  │ 1200  │ 1140    │ Nylon ✓   │
+│ Strength (MPa)  │ 90    │ 23    │ 60    │ 80      │ PEEK ✓    │
+│ Melts at (°C)   │ 343   │ 327   │ 267   │ 220     │ PEEK ✓    │
+│ Glass T (°C)    │ 143   │ N/A   │ 150   │ 50      │ PC/PEEK ✓ │
+│ Chemical resist │ Excel │ Best  │ Good  │ Good    │ PTFE ✓    │
+│ Friction coeff  │ 0.35  │ 0.05  │ 0.31  │ 0.19    │ PTFE ✓    │
+│ Cost            │ $$$$  │ $$$   │ $$    │ $$      │ PC/Nylon ✓│
+└─────────────────┴───────┴───────┴───────┴─────────┴───────────┘
+
+Best for:
+  PEEK: Aerospace, medical implants (bio-compatible, strong)
+  PTFE: Seals, bearings, non-stick (lowest friction)
+  PC:   Windows, safety glasses (transparent, impact)
+  Nylon: Gears, bushings (wear-resistant, cheap)
+
+>>> compare peek ptfe --criteria temperature chemical_resistance
+
+Temperature resistance:
+  PEEK: 343°C ✓ Winner
+  PTFE: 327°C (close second)
+
+Chemical resistance:
+  PTFE: Best (resists almost everything) ✓ Winner
+  PEEK: Excellent (but not as universal)
+
+Conclusion:
+  - Extreme temps + mechanical load: PEEK
+  - Extreme chemicals: PTFE
+  - Both extremes: PTFE (sacrifice some strength)
+
+
+# ========================================
+# Comparison 4: Heat Sink Materials
+# ========================================
+
+>>> compare aluminum_6061 copper_pure aluminum_pure
+
+Thermal conductivity comparison:
+
+┌──────────────────────────────────────────────────────┐
+│ Material         │ Thermal (W/m·K) │ Density │ Cost  │
+├──────────────────┼─────────────────┼─────────┼───────┤
+│ Copper (pure)    │ 385 ✓ BEST      │ 8960    │ $6/kg │
+│ Aluminum (pure)  │ 237             │ 2700 ✓  │ $3/kg │
+│ Aluminum 6061    │ 167             │ 2700    │ $2.50 │
+└──────────────────┴─────────────────┴─────────┴───────┘
+
+Performance metrics:
+  Conductivity:        Copper > Al pure > Al 6061
+  Weight:              Al = Al 6061 < Copper (3.3x lighter)
+  Thermal/weight:      Al pure ✓ (87.8) > Copper (43.0)
+  Cost:                Al 6061 < Al pure < Copper
+
+Recommendation:
+  - Maximum cooling, weight not critical: Copper
+  - Balanced (weight + cooling): Aluminum (pure or 6061)
+  - Budget + weight critical: Aluminum 6061
+
+Real-world:
+  CPU coolers: Copper base + aluminum fins (hybrid)
+  LED heatsinks: Aluminum (good enough, lightweight)
+  High-power electronics: Copper (best dissipation)
+
+
+# ========================================
+# Comparison 5: Aerospace Alloys
+# ========================================
+
+>>> compare aluminum_7075 titanium_6al4v carbon_fiber_woven magnesium_az31
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│            AEROSPACE MATERIAL COMPARISON                                 │
+├──────────────────────────────────────────────────────────────────────────┤
+│ Property             │ Al 7075 │ Ti 6-4  │ CF Woven │ Mg AZ31 │ Winner │
+├──────────────────────┼─────────┼─────────┼──────────┼─────────┼────────┤
+│ Density (kg/m³)      │ 2810    │ 4430    │ 1600 ✓   │ 1740    │ CF     │
+│ Yield (MPa)          │ 505     │ 880 ✓   │ 600      │ 220     │ Ti     │
+│ Tensile (MPa)        │ 572     │ 950     │ 900      │ 290     │ Ti ✓   │
+│ Specific strength    │ 1797    │ 1988    │ 5625 ✓   │ 1264    │ CF     │
+│ Young's (GPa)        │ 72      │ 114     │ 230 ✓    │ 45      │ CF     │
+│ Fatigue strength     │ Good    │ Excel ✓ │ Excel    │ Poor    │ Ti/CF  │
+│ Corrosion            │ Poor    │ Excel ✓ │ Good     │ Very po │ Ti     │
+│ Cost ($/kg)          │ 5       │ 25      │ 40       │ 7       │ Al ✓   │
+│ Machinability        │ Good ✓  │ Hard    │ Very har │ Easy    │ Al/Mg  │
+└──────────────────────┴─────────┴─────────┴──────────┴─────────┴────────┘
+
+Best applications:
+  Al 7075:     Aircraft structures, general aerospace (balanced)
+  Ti 6Al-4V:   Landing gear, high-stress (fatigue critical)
+  Carbon fiber: Race cars, drones, satellites (weight critical)
+  Mg AZ31:     Interior components, housings (non-structural)
+
+Weight comparison (for 1000 MPa load):
+  Carbon fiber: 100% (baseline) ✓
+  Titanium:     115%
+  Aluminum:     128%
+  Magnesium:    Cannot handle (insufficient strength)
+
+>>> compare aluminum_7075 carbon_fiber_woven --optimize cost_per_strength
+
+Cost per unit strength ($/[MPa·kg]):
+
+  Aluminum 7075:    $0.035/[MPa·kg] ✓ Winner
+  Carbon fiber:     $0.074/[MPa·kg] (2.1x more expensive)
+
+Conclusion:
+  - Weight is critical (drone, satellite): Carbon fiber
+  - Budget matters (general aerospace): Aluminum 7075
+  - Both matter (commercial aircraft): Aluminum + carbon hybrid
+
+
+# ========================================
+# Comparison 6: Design Trade-Off Matrix
+# ========================================
+
+>>> compare pla abs peek --matrix
+
+Trade-off matrix (1-10 scale):
+
+                    PLA     ABS     PEEK
+Cost               10 ✓     8       2
+Ease of use        10 ✓     6       3
+Strength            5       4       9 ✓
+Temperature res     3       5       10 ✓
+Toughness           4       7 ✓     8
+Chemical res        4       5       9 ✓
+Availability       10 ✓     9       5
+Sustainability     10 ✓     2       4
+
+Overall scores:
+  1. PLA:  56 points (best for beginners, prototypes)
+  2. PEEK: 50 points (best for performance)
+  3. ABS:  46 points (middle ground)
+
+Recommendations:
+  - Learning 3D printing: PLA
+  - Functional prototypes: ABS
+  - Production parts: PEEK (if budget allows)
+
+
+# ========================================
+# Export Options
+# ========================================
+
+>>> compare pla petg abs --export comparison.csv
+Exported to: comparison.csv
+
+>>> compare steel aluminum titanium --export report.txt --verbose
+Detailed comparison saved to: report.txt
+Includes: properties, sources, uncertainties, recommendations
+
+>>> compare <materials> --json > data.json
+JSON output for programmatic use
+
+>>> compare <materials> --plot properties.png
+Generate comparison charts (requires Python/matplotlib)
+

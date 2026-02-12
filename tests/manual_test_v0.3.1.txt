@@ -1,0 +1,259 @@
+# MatLabC++ v0.3.1 Manual Test Script
+# Copy and paste these commands into the mlab++ REPL to verify functionality
+
+# ========== BASIC TRIG FUNCTIONS ==========
+
+# Test sin() at special angles
+sin(0)
+# Expected: 0
+
+sin(1.5708)
+# Expected: ~1.0 (pi/2 in radians)
+
+sin(3.14159)
+# Expected: ~0 (pi in radians)
+
+sin(-1.5708)
+# Expected: ~-1.0 (-pi/2)
+
+# Test cos() at special angles
+cos(0)
+# Expected: 1
+
+cos(1.5708)
+# Expected: ~0 (pi/2)
+
+cos(3.14159)
+# Expected: ~-1 (pi)
+
+# Test tan()
+tan(0)
+# Expected: 0
+
+tan(0.7854)
+# Expected: ~1.0 (pi/4, where tan = 1)
+
+# ========== MATH IDENTITIES ==========
+
+# Test sin^2 + cos^2 = 1
+x = 0.5
+s = sin(x)
+c = cos(x)
+s*s + c*c
+# Expected: 1.0 (within floating point precision)
+
+# Test another angle
+x = 1.2
+s = sin(x)
+c = cos(x)
+s*s + c*c
+# Expected: 1.0
+
+# Test tan(x) = sin(x)/cos(x)
+x = 0.6
+t = tan(x)
+s = sin(x)
+c = cos(x)
+ratio = s/c
+t
+ratio
+# Expected: t and ratio should be very close
+
+# ========== EXPONENTIAL AND LOG ==========
+
+# Test exp and log are inverses
+x = 2.5
+exp(log(x))
+# Expected: 2.5
+
+# Test log base 10
+log10(10)
+# Expected: 1
+
+log10(100)
+# Expected: 2
+
+log10(1000)
+# Expected: 3
+
+# Test natural log
+log(1)
+# Expected: 0
+
+log(2.71828)
+# Expected: ~1.0 (e)
+
+# ========== SQRT AND ABS ==========
+
+# Test sqrt
+sqrt(4)
+# Expected: 2
+
+sqrt(2)
+# Expected: ~1.414
+
+sqrt(16)
+# Expected: 4
+
+# Test abs
+abs(5)
+# Expected: 5
+
+abs(-5)
+# Expected: 5
+
+abs(0)
+# Expected: 0
+
+# ========== AGGREGATE FUNCTIONS ==========
+
+# These work on arrays but we're testing with scalars for now
+
+# Test sum
+sum(5)
+# Expected: 5 (sum of single value)
+
+# Test mean
+mean(10)
+# Expected: 10 (mean of single value)
+
+# Test min/max
+min(7)
+# Expected: 7
+
+max(7)
+# Expected: 7
+
+# ========== SIZE AND LENGTH ==========
+
+# Test on scalars
+size(42)
+# Expected: 1x1
+
+length(42)
+# Expected: 1
+
+# ========== DISPLAY FUNCTION ==========
+
+# Test disp (should show value without "ans =")
+disp(123)
+# Expected: Just shows 123, no "ans ="
+
+x = 456
+disp(x)
+# Expected: Just shows 456
+
+# ========== SPECIAL VALUES ==========
+
+# Test log of zero (returns -Inf in C++)
+log(0)
+# Expected: -Inf (no crash)
+
+# Test log of negative (returns NaN in C++)
+log(-1)
+# Expected: NaN (no crash)
+
+# Test sqrt of negative (returns NaN in C++)
+sqrt(-1)
+# Expected: NaN (no crash - MATLAB would return complex)
+
+# Test division by zero
+x = 1/0
+# Expected: Inf
+
+x = -1/0
+# Expected: -Inf
+
+# ========== ERROR CASES ==========
+
+# Test missing arguments
+sin()
+# Expected: Error: "sin() requires one argument"
+
+cos()
+# Expected: Error: "cos() requires one argument"
+
+log()
+# Expected: Error: "log() requires one argument"
+
+# Test too many arguments (should error but might not be implemented yet)
+# sin(1,2)
+# Expected: Error or ignored
+
+# Test unknown function
+unknown_func(1)
+# Expected: Error: "Unknown function: unknown_func()"
+
+# ========== EXPRESSIONS ==========
+
+# Test function calls in expressions
+x = 3.14159/2
+sin(x)
+# Expected: ~1.0
+
+sin(x/2)
+# Expected: sin of pi/4 = ~0.707
+
+sin(2*x)
+# Expected: sin of pi = ~0
+
+# Test multiple operations
+result = sin(0.5) + cos(0.5)
+result
+# Expected: ~1.36
+
+result = sqrt(4) * abs(-3)
+result
+# Expected: 2 * 3 = 6
+
+# ========== WORKSPACE MANAGEMENT ==========
+
+# Create some variables
+a = 1
+b = 2
+c = 3
+
+# List variables
+who
+# Expected: Shows a, b, c
+
+# Detailed workspace
+workspace
+# Expected: Shows details of a, b, c
+
+# Clear one variable
+clear a
+
+who
+# Expected: Shows b, c (a is gone)
+
+# Clear all
+clear
+
+who
+# Expected: Empty workspace
+
+# ========== HELP AND VERSION ==========
+
+# Test help command
+help
+# Expected: Shows list of available commands and functions
+
+# Test version
+version
+# Expected: Shows MatLabC++ version 0.3.1
+
+# ========== COMPLEX EXPRESSION ==========
+
+# Build up a complex calculation
+x = 1.5
+y = sin(x) * cos(x) + sqrt(abs(log(x)))
+disp(y)
+# Expected: Some numeric result, no crash
+
+# ========== END OF TESTS ==========
+
+# If you got here without crashes, v0.3.1 is working!
+# Type 'quit' to exit
+
+quit

@@ -1,0 +1,62 @@
+✅ QUICK FIX: LICENSE Created + Cairo Install
+═══════════════════════════════════════════════════════════════════════════════
+
+WHAT I DID:
+  ✅ Created LICENSE file (MIT license)
+  ✅ Ready for build
+
+WHAT YOU DO NOW (Copy & Paste):
+═══════════════════════════════════════════════════════════════════════════════
+
+Step 1: Install cairo (for plotting support)
+
+  sudo apt update
+  sudo apt install -y libcairo2-dev
+
+Step 2: Clean and rebuild
+
+  cd /mnt/c/Users/Liam/Desktop/MatLabC++/build
+  rm -rf *
+  cmake -DCMAKE_BUILD_TYPE=Release ..
+  cmake --build . --config Release
+
+Step 3: Verify
+
+  ls -lh Release/matlabcpp.exe
+
+Step 4: Setup bash integration
+
+  cd ../v0.3.0
+  bash Setup-Bash-Integration.sh
+  source ~/.bashrc
+
+Step 5: Test
+
+  mlcpp --version
+
+═══════════════════════════════════════════════════════════════════════════════
+
+EXPECTED OUTPUT:
+
+  -- MatLabC++ v0.3.0 Build Configuration
+  -- ==========================================
+  -- Build type:           Release
+  -- Build shared libs:    ON
+  -- Build examples:       ON
+  -- Build tests:          ON
+  -- Build plotting:       ON
+  --
+  -- Optional Dependencies:
+  --   Cairo:              TRUE ✅
+  --   OpenGL:             TRUE
+  --   CUDA:               FALSE
+  --
+  -- Configuring done
+  [100%] Linking CXX executable matlabcpp.exe
+  [100%] Built target matlabcpp
+
+═══════════════════════════════════════════════════════════════════════════════
+
+STATUS: Ready to Build ✅
+
+═══════════════════════════════════════════════════════════════════════════════

@@ -1,0 +1,80 @@
+🚨 FIX: CMake Cache Corrupted - Clean Build Required
+═══════════════════════════════════════════════════════════════════════════════
+
+WHAT HAPPENED:
+  ❌ Mixed Windows (C:\) and WSL (/mnt/c/) paths
+  ❌ Used PowerShell syntax in bash (doesn't work)
+  ❌ CMake cache became corrupted
+  ❌ Build directory is invalid
+
+SOLUTION: Clean rebuild in WSL bash
+
+═══════════════════════════════════════════════════════════════════════════════
+
+STEP 1: Delete corrupted build directory
+
+  cd /mnt/c/Users/Liam/Desktop/MatLabC++
+  rm -rf build
+
+STEP 2: Create fresh build directory
+
+  mkdir build
+  cd build
+
+STEP 3: Configure with CMake
+
+  cmake -DCMAKE_BUILD_TYPE=Release ..
+
+STEP 4: Build project
+
+  cmake --build . --config Release
+
+STEP 5: Verify executable
+
+  ls -lh Release/matlabcpp.exe
+
+  Should show file info, not an error!
+
+═══════════════════════════════════════════════════════════════════════════════
+
+IMPORTANT: USE BASH COMMANDS IN WSL
+
+Don't use:
+  ❌ C:\Users\... (Windows path)
+  ❌ -ErrorAction SilentlyContinue (PowerShell syntax)
+  ❌ mkdir build -ErrorAction (bash doesn't understand this)
+
+Use instead:
+  ✅ /mnt/c/Users/... (WSL path)
+  ✅ mkdir -p build (bash syntax)
+  ✅ rm -rf build (bash syntax)
+  ✅ ls (bash syntax)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+QUICK FIX COMMANDS (Copy & Paste These):
+
+# In WSL bash terminal:
+
+cd /mnt/c/Users/Liam/Desktop/MatLabC++
+rm -rf build
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+cmake --build . --config Release
+ls -lh Release/matlabcpp.exe
+
+═══════════════════════════════════════════════════════════════════════════════
+
+After build succeeds, test bash integration:
+
+cd ../v0.3.0
+bash Setup-Bash-Integration.sh
+source ~/.bashrc
+mlcpp --version
+
+═══════════════════════════════════════════════════════════════════════════════
+
+STATUS: Ready to rebuild ✅
+
+═══════════════════════════════════════════════════════════════════════════════

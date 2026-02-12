@@ -1,0 +1,90 @@
+📍 FILE LOCATIONS & EXECUTION COMMANDS
+═══════════════════════════════════════════════════════════════════════════════
+
+WHERE FILES ARE LOCATED
+═══════════════════════════════════════════════════════════════════════════════
+
+Project Root:
+  C:\Users\Liam\Desktop\MatLabC++\
+
+Setup Scripts & Guides (ALL HERE):
+  C:\Users\Liam\Desktop\MatLabC++\v0.3.0\
+
+  Scripts:
+    ✅ Setup-Global-Integration.ps1          ← Windows PATH setup
+    ✅ Setup-Bash-Integration.sh              ← WSL/bash setup
+
+  Guides:
+    ✅ ACTION_PLAN_FINAL_IMPLEMENTATION.md   ← Complete guide
+    ✅ GLOBAL_INTEGRATION_COMPLETE_GUIDE.md  ← Detailed steps
+    ✅ EXECUTE_NOW_STEP_BY_STEP.txt          ← What to do now
+
+Build Directory (will be created):
+  C:\Users\Liam\Desktop\MatLabC++\build\     ← where matlabcpp.exe goes
+
+═══════════════════════════════════════════════════════════════════════════════
+
+WHAT TO TYPE NOW (Copy & Paste Exactly)
+═══════════════════════════════════════════════════════════════════════════════
+
+FIRST: Navigate to correct directory
+
+  cd C:\Users\Liam\Desktop\MatLabC++\v0.3.0
+
+SECOND: Verify files exist
+
+  ls Setup-Global-Integration.ps1, Setup-Bash-Integration.sh
+
+THIRD: Build the project (only do this ONCE)
+
+  cd C:\Users\Liam\Desktop\MatLabC++
+  mkdir build -ErrorAction SilentlyContinue
+  cd build
+  cmake -DCMAKE_BUILD_TYPE=Release ..
+  cmake --build . --config Release
+
+FOURTH: Run Windows integration
+
+  cd C:\Users\Liam\Desktop\MatLabC++\v0.3.0
+  .\Setup-Global-Integration.ps1
+
+FIFTH: Close and reopen PowerShell
+  (CRITICAL - Don't skip this!)
+
+  • Close current PowerShell window
+  • Open NEW PowerShell window
+  • Type: mlcpp --version
+
+SIXTH: Run Bash integration
+
+  wsl
+  cd /mnt/c/Users/Liam/Desktop/MatLabC++/v0.3.0
+  bash Setup-Bash-Integration.sh
+  source ~/.bashrc
+  mlcpp --version
+
+═══════════════════════════════════════════════════════════════════════════════
+
+SUMMARY OF WHAT WILL HAPPEN
+═══════════════════════════════════════════════════════════════════════════════
+
+After following the steps above:
+
+✅ matlabcpp.exe built in: build\Release\matlabcpp.exe
+✅ Added to Windows PATH: C:\Users\Liam\Desktop\MatLabC++\build\Release
+✅ Bash aliases created: ~/.bashrc
+✅ Command works everywhere: mlcpp --version
+
+Result: MatLabC++ is GLOBALLY ACCESSIBLE from any directory! 🎉
+
+═══════════════════════════════════════════════════════════════════════════════
+
+YOU'RE READY TO EXECUTE!
+═══════════════════════════════════════════════════════════════════════════════
+
+1. Copy the commands above
+2. Paste into PowerShell (run as Admin)
+3. Watch the magic happen
+4. CELEBRATE! 🎊
+
+═══════════════════════════════════════════════════════════════════════════════

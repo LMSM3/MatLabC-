@@ -1,0 +1,196 @@
+🔧 WSL BUILD TROUBLESHOOTING
+═══════════════════════════════════════════════════════════════════════════════
+
+COMMON ERRORS & FIXES
+═══════════════════════════════════════════════════════════════════════════════
+
+ERROR 1: "could not load cache"
+─────────────────────────────────────────────────────────────────────────────
+
+Error message:
+  cmake --build . --config Release
+  Error: could not load cache
+
+Cause:
+  Build directory is corrupted or CMakeCache.txt is invalid
+
+Fix:
+  rm -rf build
+  mkdir build
+  cd build
+  cmake -DCMAKE_BUILD_TYPE=Release ..
+  cmake --build . --config Release
+
+═══════════════════════════════════════════════════════════════════════════════
+
+ERROR 2: "The current CMakeCache.txt directory ... is different"
+─────────────────────────────────────────────────────────────────────────────
+
+Error message:
+  CMake Error: The current CMakeCache.txt directory /mnt/c/Users/...
+  is different than the directory c:/Users/...
+
+Cause:
+  Mixed Windows and WSL paths (C:\ vs /mnt/c/)
+
+Fix:
+  # Always use /mnt/c/ paths in WSL
+  cd /mnt/c/Users/Liam/Desktop/MatLabC++
+  rm -rf build
+  mkdir build
+  cd build
+  cmake -DCMAKE_BUILD_TYPE=Release ..
+
+═══════════════════════════════════════════════════════════════════════════════
+
+ERROR 3: "No such file or directory"
+─────────────────────────────────────────────────────────────────────────────
+
+Error message:
+  cd: C:UsersLiamDesktopMatLabC++: No such file or directory
+
+Cause:
+  Used Windows path (C:\) instead of WSL path (/mnt/c/)
+
+Fix:
+  # Don't use:
+  cd C:\Users\Liam\Desktop\MatLabC++
+  
+  # Use instead:
+  cd /mnt/c/Users/Liam/Desktop/MatLabC++
+
+═══════════════════════════════════════════════════════════════════════════════
+
+ERROR 4: "mkdir: invalid option -- 'E'"
+─────────────────────────────────────────────────────────────────────────────
+
+Error message:
+  mkdir: invalid option -- 'E'
+
+Cause:
+  Used PowerShell syntax in bash:
+    mkdir build -ErrorAction SilentlyContinue
+
+Fix:
+  # Don't use PowerShell syntax:
+  mkdir build -ErrorAction SilentlyContinue  ❌
+  
+  # Use bash syntax instead:
+  mkdir -p build  ✅
+
+═══════════════════════════════════════════════════════════════════════════════
+
+ERROR 5: "cmake: command not found"
+─────────────────────────────────────────────────────────────────────────────
+
+Error message:
+  cmake: command not found
+
+Cause:
+  CMake not installed in WSL
+
+Fix:
+  # Install CMake in WSL
+  sudo apt update
+  sudo apt install cmake
+  
+  # Then try again
+  cmake -DCMAKE_BUILD_TYPE=Release ..
+
+═══════════════════════════════════════════════════════════════════════════════
+
+ERROR 6: "gcc: command not found"
+─────────────────────────────────────────────────────────────────────────────
+
+Error message:
+  gcc: command not found
+
+Cause:
+  C++ compiler not installed in WSL
+
+Fix:
+  # Install build tools in WSL
+  sudo apt update
+  sudo apt install build-essential
+  sudo apt install g++
+  
+  # Then try again
+  cmake --build . --config Release
+
+═══════════════════════════════════════════════════════════════════════════════
+
+ERROR 7: "Source CMakeLists.txt does not match"
+─────────────────────────────────────────────────────────────────────────────
+
+Error message:
+  CMake Error: The source "/mnt/c/Users/Liam/Desktop/MatLabC++/CMakeLists.txt"
+  does not match the source "C:/Users/Liam/Desktop/MatLabC++/CMakeLists.txt"
+
+Cause:
+  CMake cache has mixed path types (Windows and WSL)
+
+Fix:
+  # Clean and rebuild
+  cd /mnt/c/Users/Liam/Desktop/MatLabC++
+  rm -rf build
+  mkdir build
+  cd build
+  cmake -DCMAKE_BUILD_TYPE=Release ..
+  cmake --build . --config Release
+
+═══════════════════════════════════════════════════════════════════════════════
+
+PATH REFERENCE: Windows vs WSL
+═══════════════════════════════════════════════════════════════════════════════
+
+Windows PowerShell:
+  C:\Users\Liam\Desktop\MatLabC++
+  
+WSL Bash:
+  /mnt/c/Users/Liam/Desktop/MatLabC++
+
+NEVER mix them! Pick one:
+  - Use Windows PowerShell for Windows build
+  - Use WSL bash for WSL build
+
+═══════════════════════════════════════════════════════════════════════════════
+
+COMMAND SYNTAX REFERENCE
+═══════════════════════════════════════════════════════════════════════════════
+
+Windows PowerShell          WSL Bash
+─────────────────────────────────────────────────────────────────────────────
+cd C:\path                  cd /mnt/c/path
+mkdir build                 mkdir -p build
+rm -r build                 rm -rf build
+ls                          ls -la
+Get-Item file.exe           ls -lh file.exe
+echo "text"                 echo "text"
+
+PowerShell only:
+  -ErrorAction SilentlyContinue   (doesn't work in bash)
+  Join-Path                       (doesn't work in bash)
+  Test-Path                       (doesn't work in bash)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+QUICK FIXES BY ERROR TYPE
+═══════════════════════════════════════════════════════════════════════════════
+
+Cache Error?          → rm -rf build && mkdir build
+Path Error?           → Use /mnt/c/ not C:\
+Syntax Error?         → Use bash not PowerShell syntax
+Command not found?    → sudo apt install <package>
+Permission denied?    → chmod +x filename
+
+═══════════════════════════════════════════════════════════════════════════════
+
+STILL STUCK?
+
+1. Read: WSL_BUILD_COMPLETE_GUIDE.txt
+2. Copy exact commands from there
+3. Paste into bash terminal
+4. Don't modify the commands
+5. Wait for build to complete
+
+═══════════════════════════════════════════════════════════════════════════════

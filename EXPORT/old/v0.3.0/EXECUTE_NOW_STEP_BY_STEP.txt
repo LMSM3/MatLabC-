@@ -1,0 +1,194 @@
+🚀 EXECUTE NOW - Global Integration Setup
+═══════════════════════════════════════════════════════════════════════════════
+
+ALL FILES ARE IN: C:\Users\Liam\Desktop\MatLabC++\v0.3.0\
+
+YOUR NEXT STEPS (Copy & Paste These Commands)
+═══════════════════════════════════════════════════════════════════════════════
+
+STEP 1: Navigate to the correct directory
+─────────────────────────────────────────────────────────────────────────────
+
+  cd C:\Users\Liam\Desktop\MatLabC++\v0.3.0
+
+STEP 2: Verify files exist
+─────────────────────────────────────────────────────────────────────────────
+
+  ls Setup-Global-Integration.ps1
+  ls Setup-Bash-Integration.sh
+  ls ACTION_PLAN_FINAL_IMPLEMENTATION.md
+
+  (Should see all 3 files listed)
+
+STEP 3: Read the action plan (optional but recommended)
+─────────────────────────────────────────────────────────────────────────────
+
+  # In PowerShell, read the guide:
+  Get-Content ACTION_PLAN_FINAL_IMPLEMENTATION.md | less
+
+  # Or open in notepad:
+  notepad ACTION_PLAN_FINAL_IMPLEMENTATION.md
+
+STEP 4: Build the Release executable (first time only)
+─────────────────────────────────────────────────────────────────────────────
+
+  # Navigate to build directory
+  cd C:\Users\Liam\Desktop\MatLabC++
+
+  # Create build directory if needed
+  mkdir build -ErrorAction SilentlyContinue
+  cd build
+
+  # Configure
+  cmake -DCMAKE_BUILD_TYPE=Release ..
+
+  # Build
+  cmake --build . --config Release
+
+  # Verify
+  ls Release\matlabcpp.exe
+
+  ✅ Should show the executable file
+
+STEP 5: Run Windows global integration
+─────────────────────────────────────────────────────────────────────────────
+
+  # Go back to v0.3.0
+  cd C:\Users\Liam\Desktop\MatLabC++\v0.3.0
+
+  # Run the setup script (IMPORTANT: Run in Admin PowerShell)
+  .\Setup-Global-Integration.ps1
+
+  ✅ Should show:
+     [OK] Build directory validated
+     [OK] matlabcpp.exe found
+     [OK] PATH updated
+
+STEP 6: CLOSE AND REOPEN PowerShell
+─────────────────────────────────────────────────────────────────────────────
+
+  ⚠️  IMPORTANT: PATH changes require shell restart
+  
+  • Close current PowerShell window completely
+  • Open a NEW PowerShell window
+  • Don't continue in the same window!
+
+STEP 7: Test Windows integration
+─────────────────────────────────────────────────────────────────────────────
+
+  # In NEW PowerShell window, test from any directory:
+  mlcpp --version
+
+  ✅ Should show version info!
+
+  # Test from different directories:
+  cd ~
+  mlcpp --help
+
+  cd C:\Windows
+  mlcpp --version
+
+  ✅ All should work!
+
+STEP 8: Run WSL/Bash integration
+─────────────────────────────────────────────────────────────────────────────
+
+  # Open WSL/bash terminal
+  wsl
+
+  # Navigate to setup script
+  cd /mnt/c/Users/Liam/Desktop/MatLabC++/v0.3.0
+
+  # Run setup script
+  bash Setup-Bash-Integration.sh
+
+  ✅ Should show:
+     [OK] Using: /home/.../.bashrc
+     [OK] MatLabC++ executable found
+     [OK] Configuration added
+     [OK] Configuration reloaded
+
+STEP 9: Test Bash integration
+─────────────────────────────────────────────────────────────────────────────
+
+  # Still in bash, test:
+  mlcpp --version
+
+  ✅ Should work!
+
+  # Test from different directory:
+  cd /tmp
+  mlcpp --help
+
+  ✅ Should work from anywhere!
+
+STEP 10: CELEBRATE! 🎉
+─────────────────────────────────────────────────────────────────────────────
+
+  You now have MatLabC++ globally accessible!
+
+  Test these:
+    Windows PowerShell: mlcpp --version ✅
+    Windows CMD: mlcpp --version ✅
+    WSL bash: mlcpp --version ✅
+    VS Code Terminal: mlcpp --version ✅
+    Any directory: mlcpp --version ✅
+
+═══════════════════════════════════════════════════════════════════════════════
+
+QUICK REFERENCE - ALL COMMANDS IN ONE PLACE
+═══════════════════════════════════════════════════════════════════════════════
+
+# Build executable (run once)
+cd C:\Users\Liam\Desktop\MatLabC++
+mkdir build -ErrorAction SilentlyContinue
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+cmake --build . --config Release
+ls Release\matlabcpp.exe
+
+# Windows global integration
+cd C:\Users\Liam\Desktop\MatLabC++\v0.3.0
+.\Setup-Global-Integration.ps1
+# CLOSE and REOPEN PowerShell
+mlcpp --version
+
+# WSL/Bash integration
+wsl
+cd /mnt/c/Users/Liam/Desktop/MatLabC++/v0.3.0
+bash Setup-Bash-Integration.sh
+source ~/.bashrc
+mlcpp --version
+
+═══════════════════════════════════════════════════════════════════════════════
+
+TROUBLESHOOTING
+═══════════════════════════════════════════════════════════════════════════════
+
+ERROR: "Setup-Global-Integration.ps1 is not recognized"
+FIX: Make sure you're in C:\Users\Liam\Desktop\MatLabC++\v0.3.0
+    Type: cd C:\Users\Liam\Desktop\MatLabC++\v0.3.0
+    Then: .\Setup-Global-Integration.ps1
+
+ERROR: "Cannot bind argument to parameter 'Path' because it is null"
+FIX: Run in Admin PowerShell
+    Right-click PowerShell → Run as Administrator
+
+ERROR: "mlcpp command not found" after setup
+FIX: You didn't restart PowerShell
+    Close PowerShell completely
+    Open a NEW PowerShell window
+    Test again
+
+ERROR: "matlabcpp.exe not found"
+FIX: Build not complete
+    cd C:\Users\Liam\Desktop\MatLabC++\build
+    cmake --build . --config Release
+
+═══════════════════════════════════════════════════════════════════════════════
+
+YOU'RE ALMOST THERE! 🎊
+
+Just follow the 10 steps above and you'll have MatLabC++ globally accessible!
+
+═══════════════════════════════════════════════════════════════════════════════

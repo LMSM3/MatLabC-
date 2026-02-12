@@ -1,0 +1,117 @@
+{
+  "name": "optimization",
+  "version": "1.0.0",
+  "arch": "any",
+  "description": "Optimization toolkit with gradient descent, simplex, and constraint solvers",
+  "category": "math",
+  "license": "MIT",
+  
+  "requires": [
+    "core >= 0.3.0"
+  ],
+  
+  "provides": [
+    "fmin",
+    "fminunc",
+    "fmincon",
+    "fminsearch",
+    "linprog",
+    "quadprog",
+    "gradient_descent",
+    "nelder_mead",
+    "bfgs",
+    "lbfgs",
+    "particle_swarm",
+    "genetic_algorithm"
+  ],
+  
+  "backends": {
+    "available": ["cpu", "parallel"],
+    "default": "cpu",
+    "priority": {
+      "parallel": 100,
+      "cpu": 50
+    }
+  },
+  
+  "files": {
+    "include": [
+      "include/matlabcpp/optimization.hpp",
+      "include/matlabcpp/optimizers/gradient_descent.hpp",
+      "include/matlabcpp/optimizers/simplex.hpp",
+      "include/matlabcpp/optimizers/constrained.hpp"
+    ],
+    "lib": [
+      "lib/liboptimization.so",
+      "lib/liboptimization.a"
+    ],
+    "demos": [
+      "demos/optimization_demo.m",
+      "demos/constrained_opt.m",
+      "demos/multi_objective.m"
+    ],
+    "docs": [
+      "docs/README.md",
+      "docs/ALGORITHMS.md",
+      "docs/EXAMPLES.md"
+    ]
+  },
+  
+  "capabilities": {
+    "fminunc": {
+      "type": "function",
+      "signature": "OptResult fminunc(ObjectiveFunction f, Vector x0, Options opts)",
+      "backends": ["parallel", "cpu"]
+    },
+    "fmincon": {
+      "type": "function",
+      "signature": "OptResult fmincon(ObjectiveFunction f, Vector x0, Constraints c)",
+      "backends": ["cpu"]
+    },
+    "gradient_descent": {
+      "type": "function",
+      "signature": "OptResult gradient_descent(ObjectiveFunction f, Vector x0, double learning_rate)",
+      "backends": ["parallel", "cpu"]
+    }
+  },
+  
+  "metadata": {
+    "algorithms": [
+      "Gradient Descent",
+      "Newton's Method",
+      "BFGS",
+      "L-BFGS",
+      "Nelder-Mead Simplex",
+      "Particle Swarm",
+      "Genetic Algorithm"
+    ],
+    "constraint_types": ["linear", "nonlinear", "bound"],
+    "max_dimensions": 10000,
+    "convergence_criteria": ["gradient", "function_change", "step_size"]
+  },
+  
+  "size": 180000,
+  "checksum": "sha256:50d858e0985ecc7f60418aaf0cc5ab587f42c2570a884095a9e8ccacd0f6545c",
+  
+  "author": "MatLabC++ Contributors",
+  "maintainer": "opt@matlabcpp.org",
+  "url": "https://github.com/matlabcpp/matlabcpp",
+  "repository": "https://packages.matlabcpp.org/",
+  
+  "keywords": ["optimization", "minimization", "gradient", "simplex", "constraints"],
+  
+  "install": {
+    "pre_install": [],
+    "post_install": [
+      "echo 'Optimization toolkit installed'",
+      "echo 'Includes gradient descent, BFGS, simplex, and more'",
+      "echo 'Test with: mlab++ optimization_demo.m'"
+    ]
+  },
+  
+  "notes": [
+    "Parallel backend uses OpenMP if available",
+    "Constrained optimization uses interior-point method",
+    "Genetic algorithm good for multimodal problems"
+  ]
+}

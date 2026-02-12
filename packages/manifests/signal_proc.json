@@ -1,0 +1,127 @@
+{
+  "name": "signal_proc",
+  "version": "1.0.0",
+  "arch": "any",
+  "description": "Signal processing toolkit with FFT, filters, and time-frequency analysis",
+  "category": "dsp",
+  "license": "MIT",
+  
+  "requires": [
+    "core >= 0.3.0"
+  ],
+  
+  "optional_requires": [
+    "gpu_bench >= 1.0.0"
+  ],
+  
+  "provides": [
+    "fft",
+    "ifft",
+    "fft2",
+    "filter",
+    "butter",
+    "cheby1",
+    "convolve",
+    "xcorr",
+    "spectrogram",
+    "periodogram",
+    "hamming",
+    "hann",
+    "blackman",
+    "resample",
+    "decimate"
+  ],
+  
+  "backends": {
+    "available": ["fftw", "gpu", "cpu"],
+    "default": "fftw",
+    "priority": {
+      "gpu": 100,
+      "fftw": 80,
+      "cpu": 50
+    },
+    "detection": {
+      "fftw": "pkg-config --exists fftw3",
+      "gpu": "mlab++ pkg list | grep gpu_bench"
+    }
+  },
+  
+  "files": {
+    "include": [
+      "include/matlabcpp/signal_proc.hpp",
+      "include/matlabcpp/fft.hpp",
+      "include/matlabcpp/filters.hpp"
+    ],
+    "lib": [
+      "lib/libsignal_proc.so",
+      "lib/libsignal_proc.a"
+    ],
+    "demos": [
+      "demos/signal_processing.m",
+      "demos/filter_design.m",
+      "demos/spectrogram_demo.m"
+    ],
+    "docs": [
+      "docs/README.md",
+      "docs/FFT.md",
+      "docs/FILTERS.md"
+    ]
+  },
+  
+  "capabilities": {
+    "fft": {
+      "type": "function",
+      "signature": "ComplexVector fft(Vector signal)",
+      "backends": ["gpu", "fftw", "cpu"]
+    },
+    "filter": {
+      "type": "function",
+      "signature": "Vector filter(Vector b, Vector a, Vector x)",
+      "backends": ["cpu"]
+    },
+    "spectrogram": {
+      "type": "function",
+      "signature": "Spectrogram spectrogram(Vector signal, int window_size, int overlap)",
+      "backends": ["fftw", "cpu"]
+    }
+  },
+  
+  "metadata": {
+    "fft_algorithms": ["Cooley-Tukey", "Bluestein", "Rader"],
+    "filter_types": ["IIR", "FIR", "Butterworth", "Chebyshev"],
+    "window_functions": ["Hamming", "Hann", "Blackman", "Kaiser"],
+    "max_fft_size": "2^24",
+    "performance": {
+      "fft_1M_points": "10ms (FFTW)",
+      "fft_1M_points_gpu": "2ms (CUDA)"
+    }
+  },
+  
+  "size": 224000,
+  "checksum": "sha256:2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae",
+  
+  "author": "MatLabC++ Contributors",
+  "maintainer": "dsp@matlabcpp.org",
+  "url": "https://github.com/matlabcpp/matlabcpp",
+  "repository": "https://packages.matlabcpp.org/",
+  
+  "keywords": ["signal", "processing", "fft", "filter", "dsp", "frequency"],
+  
+  "install": {
+    "pre_install": [
+      "echo 'Checking for FFTW3...'",
+      "./detect_fftw.sh"
+    ],
+    "post_install": [
+      "echo 'Signal processing toolkit installed'",
+      "echo 'FFT backend: FFTW3 (if available) or built-in'",
+      "echo 'Test with: mlab++ signal_processing.m --visual'"
+    ]
+  },
+  
+  "notes": [
+    "Automatically uses FFTW3 if installed for better performance",
+    "GPU acceleration available with gpu_bench module",
+    "Falls back to built-in FFT if no external libraries"
+  ]
+}

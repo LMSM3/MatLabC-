@@ -1,0 +1,63 @@
+RUN THIS NOW IN ADMIN POWERSHELL WINDOW
+═══════════════════════════════════════════════════════════════════════════════
+
+OPEN ADMIN POWERSHELL:
+  Windows key → Type "powershell" → Right-click → "Run as Administrator"
+
+NAVIGATE TO PROJECT:
+  cd C:\Users\Liam\Desktop\MatLabC++\v0.3.0
+  pwd  # Verify you're in the right place
+
+EXECUTE ICON SETUP:
+  .\Setup-Icons-Orchestrator.ps1
+
+THAT'S IT!
+
+The script will:
+  ✓ Detect if first-run or location changed
+  ✓ Auto-execute setup if needed
+  ✓ Copy and verify icon
+  ✓ Cache state for future runs
+  ✓ Show next steps
+
+═══════════════════════════════════════════════════════════════════════════════
+
+EXPECTED OUTPUT:
+
+  Pre-flight Checks:
+    [OK] Setup-Icons-Auto.ps1 found
+    [OK] Project root validated
+
+  Current Status:
+    [INFO] First execution (no cache)
+    [OK] Icon asset will be created
+
+  Execution (auto mode):
+    [OK] Setup-Icons-Auto.ps1 completed
+
+  Post-execution Validation:
+    [OK] Icon asset verified
+
+  Next Steps for v0.3.1 Installer:
+    1. Update CMakeLists.txt version to 0.3.1
+    2. Build Release executable
+    3. Review: installers/MatLabCpp_Setup_v0.3.1.iss
+    4. Compile installer with Inno Setup
+    5. Test on clean Windows VM
+
+═══════════════════════════════════════════════════════════════════════════════
+
+VERIFY SUCCESS:
+
+  ✓ Icon should be created: ls assets\icon.ico
+  ✓ Cache should be created: ls .setup-icons-cache.json
+  ✓ Both should be visible in output
+
+═══════════════════════════════════════════════════════════════════════════════
+
+NEXT: Follow the printed next-steps guide or see RUNME_20250124.md for details
+
+═══════════════════════════════════════════════════════════════════════════════
+
+Status: Ready to Execute ✅
+Date: 2025-01-24
