@@ -4,6 +4,9 @@ dist/
 *.egg-info/
 out/
 
+# Local archive (not for GitHub)
+EXPORT/
+
 # Python
 __pycache__/
 *.py[cod]

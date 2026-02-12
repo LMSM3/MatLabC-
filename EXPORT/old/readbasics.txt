@@ -1,3 +1,0 @@
-Simple dynamic tracking of object with 3D geometry.
-
-Tracking of thermal properties from the interaction of matter.

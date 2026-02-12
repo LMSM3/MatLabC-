@@ -1,1 +1,0 @@
-This is a demonstration of the runge kutta method in MatLab and C++, demoing the same task in C++ against a simpler regression method.
