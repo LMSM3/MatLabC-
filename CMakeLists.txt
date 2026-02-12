@@ -1,7 +1,7 @@
-# MatLabC++ v0.4.0 Build System
+# MatLabC++ v0.5.0 Build System
 
 cmake_minimum_required(VERSION 3.15)
-project(MatLabCPlusPlus VERSION 0.4.0 LANGUAGES CXX)
+project(MatLabCPlusPlus VERSION 0.5.0 LANGUAGES CXX)
 
 
 set(CMAKE_CXX_STANDARD 17)
@@ -56,6 +56,8 @@ add_library(matlabcpp_core
     src/value.cpp
     src/matrix_parser.cpp
     src/debug_flags.cpp
+    src/publishing/publisher.cpp
+    src/gpu/complex_tensor_cpu.cpp
 )
 
 target_include_directories(matlabcpp_core

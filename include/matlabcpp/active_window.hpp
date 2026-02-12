@@ -101,7 +101,11 @@ public:
     
     // Main interface
     void start();
-    
+
+    // Script execution support
+    void process_command_external(const std::string& line);
+    double get_scalar(const std::string& name) const;
+
     // Configuration
     void set_fancy_mode(bool fancy) { fancy_mode_ = fancy; }
     void set_echo(bool echo) { echo_commands_ = echo; }

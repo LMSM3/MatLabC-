@@ -10,7 +10,7 @@ MATLAB-compatible interactive shell (REPL), a built-in material-property
 database, vector/matrix math, and 2-D/3-D plotting—all compiled from C++ so
 it runs anywhere without a licence.
 
-## Current Status (v0.4.0)
+## Current Status (v0.5.0)
 
 | Module              | Status | Notes                                     |
 |---------------------|--------|-------------------------------------------|
@@ -21,9 +21,9 @@ it runs anywhere without a licence.
 | Package manager     | ✅     | Dependency resolver with topological sort |
 | 2-D plotting        | ✅     | ASCII renderer (always available)         |
 | 3-D plotting        | ✅     | ASCII isometric projection                |
-| `.m` script runner  | ❌     | Parsing not yet implemented               |
-| `publish()` reports | ❌     | Planned (see ROADMAP.md)                  |
-| GPU / CUDA          | ❌     | Kernel stubs only                         |
+| `.m` script runner  | ✅     | Lexer, control flow, loop execution       |
+| `publish()` reports | ✅     | HTML reports with syntax highlighting     |
+| GPU / CUDA          | ✅     | ComplexTensor with CPU fallback + CUDA    |
 
 ## Build & Run
 
@@ -40,6 +40,7 @@ cmake --build build
 
 ## Demo
 
+### Interactive REPL
 ```
 >>> constant pi
 pi = 3.141593e+00
@@ -54,6 +55,17 @@ PEEK
 Dropping object from 100 m...
   Time to ground: 4.52 s
   Final velocity: 44.3 m/s
+```
+
+### Run a .m Script
+```bash
+./build/mlab++ projectile_motion_physics.m
+```
+
+### Publish a Report
+```bash
+./build/mlab++ publish projectile_motion_physics.m
+# → generates projectile_motion_physics.html
 ```
 
 ## Repository Layout

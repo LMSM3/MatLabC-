@@ -684,4 +684,26 @@ bool ActiveWindow::is_number(const std::string& str) const {
     }
 }
 
+void ActiveWindow::process_command_external(const std::string& line) {
+    std::string trimmed = trim(line);
+    if (trimmed.empty()) return;
+
+    try {
+        process_command(trimmed);
+    } catch (const std::exception& e) {
+        // In script mode, print errors but continue
+        std::cerr << "Error: " << e.what() << "\n";
+    }
+}
+
+double ActiveWindow::get_scalar(const std::string& name) const {
+    if (workspace_->exists(name)) {
+        Variable var = workspace_->get(name);
+        if (var.is_scalar()) {
+            return var.as_scalar();
+        }
+    }
+    return 0.0;
+}
+
 } // namespace matlabcpp

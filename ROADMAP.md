@@ -5,23 +5,35 @@ planned.
 
 ---
 
-## v0.4.0 — Core Platform *(current)*
+## v0.4.0 — Core Platform
 
 - ✅ Interactive REPL (Active Window) with workspace
 - ✅ Scalar arithmetic, trig, exp/log, constants
 - ✅ Vector & matrix types with basic linear algebra
 - ✅ Material-property database (smart lookup)
-- ✅ Package-manager framework (manifests, install)
+- ✅ Package-manager framework (manifests, install, dependency resolver)
 - ✅ CMake build system with optional Cairo / OpenGL / CUDA
 - ✅ Unit test harness (`ctest`)
+- ✅ 2-D plotting (ASCII renderer, plot specs, style presets)
+- ✅ 3-D plotting (ASCII isometric projection, scatter, surface)
 
-## v0.5.0 — Script Execution
+## v0.5.0 — Script Execution & Publishing *(current)*
 
-- ⬜ `.m` file tokeniser and parser
-- ⬜ Variable assignment, `if`/`else`, `for`/`while` loops
-- ⬜ User-defined functions (`function ... end`)
-- ⬜ `fprintf`, `disp`, `sprintf` runtime builtins
-- ⬜ `clear`, `close`, `clc` workspace commands in scripts
+- ✅ `.m` file lexer with full token set
+- ✅ Variable assignment, `if`/`elseif`/`else`/`end` control flow
+- ✅ `for`/`while` loops with range parsing
+- ✅ Line continuation (`...`), inline comments
+- ✅ Script runner integrated with ActiveWindow evaluation
+- ✅ `mlab++ script.m` command-line execution
+- ✅ `publish()` — HTML report generation from `.m` scripts
+- ✅ Syntax-highlighted code blocks in reports
+- ✅ Section headers from `%%` comments, table of contents
+- ✅ Output capture per code block
+- ✅ ComplexTensor with CPU implementation (all operations)
+- ✅ GPU CUDA kernels (add, sub, mul, div, conj, transpose, matmul, FFT)
+- ✅ CPU fallback when CUDA unavailable
+- ✅ LU, QR, SVD, eigenvalue decompositions
+- ✅ FFT / IFFT / FFT2 (Cooley-Tukey on CPU, cuFFT on GPU)
 
 ## v0.6.0 — Plotting & Visualisation
 
@@ -37,11 +49,12 @@ planned.
 - ⬜ Integration: `integral`, `trapz`
 - ⬜ Interpolation: `interp1`, `spline`
 
-## v0.8.0 — Publication & Reporting
+## v0.8.0 — Advanced Features
 
-- ⬜ `publish()` — generate PDF / HTML reports from `.m` scripts
-- ⬜ LaTeX math rendering in figures
-- ⬜ Section headers from `%%` comments
+- ⬜ User-defined functions (`function ... end`)
+- ⬜ `fprintf`, `sprintf` format-string builtins
+- ⬜ LaTeX math rendering in published figures
+- ⬜ PDF report output from `publish()`
 
 ## v1.0.0 — Stable Release
 
