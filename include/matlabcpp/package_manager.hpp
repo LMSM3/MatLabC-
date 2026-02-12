@@ -123,11 +123,18 @@ public:
     
     Resolution resolve(const std::string& package_name);
     Resolution resolve_multiple(const std::vector<std::string>& packages);
-    
+
 private:
-    void build_dep_graph(const std::string& pkg, 
-                        std::unordered_map<std::string, std::vector<std::string>>& graph,
-                        std::vector<std::string>& order);
+    bool build_dep_graph_recursive(const std::string& pkg,
+                                   std::unordered_map<std::string, std::vector<std::string>>& graph,
+                                   std::unordered_set<std::string>& visited,
+                                   std::unordered_set<std::string>& visiting,
+                                   std::vector<std::string>& missing);
+
+    void topological_sort(const std::string& pkg,
+                         const std::unordered_map<std::string, std::vector<std::string>>& graph,
+                         std::unordered_set<std::string>& visited,
+                         std::vector<std::string>& order);
 };
 
 // ========== PACKAGE INSTALLER ==========

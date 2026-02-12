@@ -18,9 +18,9 @@ it runs anywhere without a licence.
 | Scalar math         | ✅     | Arithmetic, trig, exp, log, constants     |
 | Vector/matrix ops   | ✅     | Core linear-algebra routines              |
 | Material database   | ✅     | Smart lookup for engineering materials    |
-| Package manager     | ⚠️     | Installs packages; resolver is WIP        |
-| 2-D plotting        | ⚠️     | Cairo backend builds; interactive WIP     |
-| 3-D plotting        | ⚠️     | OpenGL backend scaffolded                 |
+| Package manager     | ✅     | Dependency resolver with topological sort |
+| 2-D plotting        | ✅     | ASCII renderer (always available)         |
+| 3-D plotting        | ✅     | ASCII isometric projection                |
 | `.m` script runner  | ❌     | Parsing not yet implemented               |
 | `publish()` reports | ❌     | Planned (see ROADMAP.md)                  |
 | GPU / CUDA          | ❌     | Kernel stubs only                         |
