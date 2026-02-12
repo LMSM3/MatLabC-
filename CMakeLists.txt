@@ -90,6 +90,8 @@ target_link_libraries(matlabcpp_materials
 # ========== PLOTTING MODULE ==========
 if(BUILD_PLOTTING)
     add_library(matlabcpp_plotting
+        src/plotting/core.cpp
+        src/plotting/renderer_cairo.cpp
         src/plotting/renderer_2d.cpp
         src/plotting/renderer_3d.cpp
         src/plotting/plot_spec.cpp
