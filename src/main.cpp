@@ -14,6 +14,9 @@ namespace matlabcpp { namespace interpreter {
 // Forward declaration from publisher
 namespace matlabcpp { namespace publishing {
     int publish(const std::string& script_path, const std::string& format);
+    int publish_with_options(const std::string& script_path, const std::string& format,
+                            const std::string& theme, const std::string& font, int fontsize);
+    void print_style_options();
 }}
 
 void print_usage() {
@@ -21,9 +24,16 @@ void print_usage() {
     std::cout << "Usage:\n";
     std::cout << "  mlab++                    Run interactive active window\n";
     std::cout << "  mlab++ script.m           Execute MATLAB script\n";
-    std::cout << "  mlab++ publish script.m   Generate HTML report from script\n";
+    std::cout << "  mlab++ publish script.m   Generate HTML report (MATLAB theme)\n";
+    std::cout << "  mlab++ publish script.m --theme dark\n";
+    std::cout << "  mlab++ publish script.m --font Arial --fontsize 14\n";
     std::cout << "  mlab++ --version          Show version information\n";
     std::cout << "  mlab++ --help             Show this help\n";
+    std::cout << "\n";
+    std::cout << "Publish options:\n";
+    std::cout << "  --theme <name>    Theme: default, classic, dark\n";
+    std::cout << "  --font <name>     Font family override\n";
+    std::cout << "  --fontsize <px>   Font size override\n";
     std::cout << "\n";
 }
 
@@ -48,10 +58,41 @@ int main(int argc, char** argv) {
         return 0;
     }
 
-    // publish command: mlab++ publish script.m [format]
+    // publish command: mlab++ publish script.m [format] [options]
     if (arg == "publish" && argc >= 3) {
         std::string script = argv[2];
-        std::string format = (argc >= 4) ? argv[3] : "html";
+        std::string format = "html";
+        std::string theme = "default";
+        std::string font = "";
+        int fontsize = 0;
+
+        // Parse optional arguments
+        for (int i = 3; i < argc; i++) {
+            std::string opt = argv[i];
+
+            if (opt == "--help" || opt == "-h") {
+                matlabcpp::publishing::print_style_options();
+                return 0;
+            }
+            else if (opt == "--theme" && i + 1 < argc) {
+                theme = argv[++i];
+            }
+            else if (opt == "--font" && i + 1 < argc) {
+                font = argv[++i];
+            }
+            else if (opt == "--fontsize" && i + 1 < argc) {
+                fontsize = std::stoi(argv[++i]);
+            }
+            else if (opt[0] != '-') {
+                format = opt;
+            }
+        }
+
+        // Use customized publish if options provided
+        if (theme != "default" || !font.empty() || fontsize > 0) {
+            return matlabcpp::publishing::publish_with_options(script, format, theme, font, fontsize);
+        }
+
         return matlabcpp::publishing::publish(script, format);
     }
 
